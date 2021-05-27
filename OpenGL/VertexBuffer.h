@@ -15,15 +15,11 @@ public:
 
 	void SetData(const void* _Data);
 
-	const GLuint GetID() { return m_ID; }
-	const GLuint GetSize() { return m_Size; }
-
 	~VertexBuffer();
 
 private:
 
 	GLuint m_ID; //Define ID
-	GLuint m_Size; //Define Size
 
 };
 

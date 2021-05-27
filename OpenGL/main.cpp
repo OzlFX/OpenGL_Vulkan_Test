@@ -61,11 +61,13 @@ int main(int argc, char *argv[])
 	
 	//Setup our VAO
 	VertArray->Bind();
-	VertArray->AddVertexBuffer(Buffer);
+	VertArray->AddBuffers(Buffer);
 	VertArray->UnBind();
 
 	ShaderSystem* ShaderSys = new ShaderSystem(VertSRC, FragSRC);
 	ShaderSys->CreateProgram();
+
+	///Pass the 'mesh' (vao) to the render system with the shader, draw the object
 
 	/*GLuint VBO_ID = 0; //Set the Vertex Buffer Object ID
 

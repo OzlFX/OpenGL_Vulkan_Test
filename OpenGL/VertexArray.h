@@ -8,6 +8,7 @@ typedef unsigned int GLuint;
 #include <memory>
 
 class VertexBuffer;
+class IndexBuffer;
 
 class VertexArray
 {
@@ -18,7 +19,7 @@ public:
 	void Bind() const;
 	void UnBind() const;
 
-	void AddVertexBuffer(std::shared_ptr<VertexBuffer> _Buffer);
+	void AddBuffers(std::shared_ptr<VertexBuffer> _Buffer, std::shared_ptr<IndexBuffer> _Index);
 
 	~VertexArray();
 

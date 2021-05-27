@@ -5,6 +5,8 @@
 #include <string>
 #include <memory>
 
+#include "IndexBuffer.h"
+
 //Temp Type Defines for OpenGL
 typedef float GLfloat;
 
@@ -19,14 +21,18 @@ public:
 	Mesh(const GLfloat _PosData[]);
 	Mesh(); //Default Object
 
+	//Getters
+	std::shared_ptr<IndexBuffer>& GetIndexBuffer() { return m_IndexBuffer; }
+
 private:
 
 	//Functions
 	void CreateMesh(const GLfloat _PosData[]);
 
 	//Vars
-	std::unique_ptr<VertexBuffer> m_Buffer;
-	std::unique_ptr<VertexArray> m_VertexArray;
+	std::shared_ptr<VertexBuffer> m_Buffer;
+	std::shared_ptr<IndexBuffer> m_IndexBuffer;
+	std::shared_ptr<VertexArray> m_VertexArray;
 
 };
 

@@ -5,9 +5,6 @@
 
 VertexBuffer::VertexBuffer()
 {
-	m_ID = 0; //Set the Vertex Buffer Object ID
-	m_Size = 0; //Set initial size to 0
-
 	glGenBuffers(1, &m_ID); //Create a new VBO using the VBO id
 
 	if (!m_ID)
