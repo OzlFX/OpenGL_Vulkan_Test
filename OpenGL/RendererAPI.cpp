@@ -8,6 +8,11 @@ void RendererAPI::Init(API _API)
 	s_API = _API;
 }
 
+void RendererAPI::SetViewport(uint32_t _X, uint32_t _Y, uint32_t _Width, uint32_t _Height)
+{
+	glViewport(_X, _Y, _Width, _Height);
+}
+
 void RendererAPI::SetClearColour(const float _R, const float _G, const float _B, const float _A)
 {
 	glClearColor(_R, _G, _B, _A);

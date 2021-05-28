@@ -16,6 +16,7 @@ public:
 
 	void Init(API _API);
 
+	void SetViewport(uint32_t _X, uint32_t _Y, uint32_t _Width, uint32_t _Height);
 	void SetClearColour(const float _R, const float _G, const float _B, const float _A);
 	void Clear();
 
