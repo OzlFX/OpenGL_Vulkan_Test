@@ -4,8 +4,8 @@
 #include <SDL/SDL.h>
 #include <memory>
 
-#include "VertexBuffer.h"
-#include "VertexArray.h"
+#include "Renderer.h"
+#include "Mesh.h"
 #include "ShaderSystem.h"
 
 int main(int argc, char *argv[])
@@ -52,19 +52,10 @@ int main(int argc, char *argv[])
 		"	gl_FragColor = vec4(0.75, 0.5, 0.5, 1);		" \
 		"}												";
 
-	std::shared_ptr<VertexBuffer> Buffer = std::make_shared<VertexBuffer>();
-	Buffer->Bind();
-	Buffer->SetData(pos);
-	Buffer->UnBind();
-	
-	VertexArray* VertArray = new VertexArray();
-	
-	//Setup our VAO
-	VertArray->Bind();
-	VertArray->AddBuffers(Buffer);
-	VertArray->UnBind();
+	Renderer::Init();
 
-	ShaderSystem* ShaderSys = new ShaderSystem(VertSRC, FragSRC);
+	std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>(pos);
+	std::shared_ptr<ShaderSystem> ShaderSys = std::make_shared<ShaderSystem>(VertSRC, FragSRC);
 	ShaderSys->CreateProgram();
 
 	///Pass the 'mesh' (vao) to the render system with the shader, draw the object
@@ -184,8 +175,8 @@ int main(int argc, char *argv[])
 			}
 		}
 
-		glClearColor(.5f, .05f, .5f, 1.0f); //Set the clear colour to purple
-		glClear(GL_COLOR_BUFFER_BIT); //Set the clear buffer for colour
+		Renderer::SetClearColour(.5f, .05f, .5f, 1.0f); //Set the clear colour to purple
+		Renderer::Clear();
 
 		/*
 		//Allow OpenGL to use our shader program & VAO
@@ -200,19 +191,10 @@ int main(int argc, char *argv[])
 		glUseProgram(0);
 		*/
 
-		ShaderSys->Bind();
-		VertArray->Bind();
-
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-
-		VertArray->UnBind();
-		ShaderSys->UnBind();
+		Renderer::Submit(mesh, ShaderSys);
 
 		SDL_GL_SwapWindow(window); //Swap the window buffers after clearing has occured
 	}
-
-	delete VertArray;
-	delete ShaderSys;
 
 	SDL_DestroyWindow(window);
 	SDL_Quit();
