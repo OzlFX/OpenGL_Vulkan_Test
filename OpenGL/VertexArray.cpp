@@ -32,6 +32,7 @@ void VertexArray::UnBind() const
 //Set the buffer data to draw
 void VertexArray::AddBuffer(std::shared_ptr<VertexBuffer> _Buffer)
 {
+	m_Buffers.push_back(_Buffer);
 	_Buffer->Bind(); //Bind the desired VBO to the GPU
 	
 	//Assign the VBO to the first index and flag it for use

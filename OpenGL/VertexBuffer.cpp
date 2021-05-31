@@ -3,7 +3,7 @@
 
 #include "VertexBuffer.h"
 
-VertexBuffer::VertexBuffer() : m_Components(0)
+VertexBuffer::VertexBuffer() : m_Components(0), m_DataSize(0)
 {
 	glGenBuffers(1, &m_ID); //Create a new VBO using the VBO id
 
@@ -26,6 +26,7 @@ void VertexBuffer::UnBind() const
 void VertexBuffer::SetData(const GLfloat _Data[], int _ComponentSize = 3)
 {
 	m_DataSize = sizeof(_Data);
+	m_Components = _ComponentSize;
 	//Upload a copy of the data from memory to VBO
 	glBufferData(GL_ARRAY_BUFFER, sizeof(_Data), &_Data, GL_STATIC_DRAW);
 }
