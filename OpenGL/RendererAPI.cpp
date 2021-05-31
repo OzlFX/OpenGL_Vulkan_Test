@@ -3,9 +3,11 @@
 #include "Mesh.h"
 #include "RendererAPI.h"
 
-void RendererAPI::Init(API _API)
+RendererAPI::API RendererAPI::s_API = RendererAPI::API::OpenGL;
+
+void RendererAPI::Init()
 {
-	s_API = _API;
+	
 }
 
 void RendererAPI::SetViewport(uint32_t _X, uint32_t _Y, uint32_t _Width, uint32_t _Height)
