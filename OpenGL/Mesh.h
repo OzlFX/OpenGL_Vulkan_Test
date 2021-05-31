@@ -8,8 +8,8 @@
 //Temp Type Defines for OpenGL
 typedef float GLfloat;
 
-class VertexBuffer;
-class VertexArray;
+#include "VertexBuffer.h"
+#include "VertexArray.h"
 
 class Mesh
 {
@@ -18,6 +18,8 @@ public:
 	Mesh(std::string& _File);
 	Mesh(const GLfloat _PosData[]);
 	Mesh(); //Default Object
+
+	int GetVertexCount();
 
 private:
 

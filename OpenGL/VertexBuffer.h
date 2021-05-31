@@ -14,7 +14,8 @@ public:
 	void Bind() const;
 	void UnBind() const;
 
-	void SetData(const GLfloat _Data[]);
+	void SetData(const GLfloat _Data[], int _ComponentSize);
+	int GetSize() { return m_DataSize; }
 	int GetComponentCount() { return m_Components; }
 
 	~VertexBuffer();
@@ -23,6 +24,7 @@ private:
 
 	GLuint m_ID; //Define ID
 	int m_Components;
+	int m_DataSize;
 
 };
 

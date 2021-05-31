@@ -43,6 +43,11 @@ void VertexArray::AddBuffer(std::shared_ptr<VertexBuffer> _Buffer)
 	_Buffer->UnBind();
 }
 
+int VertexArray::GetVertexCount()
+{
+	return m_Buffers.at(0)->GetSize() / m_Buffers.at(0)->GetComponentCount();
+}
+
 VertexArray::~VertexArray()
 {
 	glDeleteVertexArrays(1, &m_ID); //Delete VAO

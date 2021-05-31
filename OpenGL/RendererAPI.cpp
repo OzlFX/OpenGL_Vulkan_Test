@@ -25,7 +25,7 @@ void RendererAPI::Clear()
 
 void RendererAPI::Draw(const std::shared_ptr<Mesh>& _Object)
 {
-	glDrawArrays(GL_TRIANGLES, 0, _Object->GetIndexBuffer()->GetCount());
+	glDrawArrays(GL_TRIANGLES, 0, _Object->GetVertexCount());
 }
 
 std::unique_ptr<RendererAPI> RendererAPI::Create()

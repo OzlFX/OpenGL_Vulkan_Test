@@ -23,8 +23,9 @@ void VertexBuffer::UnBind() const
 	glBindBuffer(GL_ARRAY_BUFFER, 0); //Unbind
 }
 
-void VertexBuffer::SetData(const GLfloat _Data[])
+void VertexBuffer::SetData(const GLfloat _Data[], int _ComponentSize = 3)
 {
+	m_DataSize = sizeof(_Data);
 	//Upload a copy of the data from memory to VBO
 	glBufferData(GL_ARRAY_BUFFER, sizeof(_Data), &_Data, GL_STATIC_DRAW);
 }

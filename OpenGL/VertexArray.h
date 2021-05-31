@@ -21,6 +21,8 @@ public:
 
 	void AddBuffer(std::shared_ptr<VertexBuffer> _Buffer);
 
+	int GetVertexCount();
+
 	~VertexArray();
 
 private:
