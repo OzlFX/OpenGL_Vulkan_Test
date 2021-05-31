@@ -3,6 +3,7 @@
 
 //Temp Type Defines for OpenGL
 typedef unsigned int GLuint;
+typedef float GLfloat;
 
 class VertexBuffer
 {
@@ -13,13 +14,15 @@ public:
 	void Bind() const;
 	void UnBind() const;
 
-	void SetData(const void* _Data);
+	void SetData(const GLfloat _Data[]);
+	int GetComponentCount() { return m_Components; }
 
 	~VertexBuffer();
 
 private:
 
 	GLuint m_ID; //Define ID
+	int m_Components;
 
 };
 
