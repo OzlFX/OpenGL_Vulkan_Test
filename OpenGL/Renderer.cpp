@@ -22,7 +22,9 @@ void Renderer::WindowResize(uint32_t _Width, uint32_t _Height)
 void Renderer::Submit(const std::shared_ptr<Mesh>& _Mesh, const std::shared_ptr<ShaderSystem>& _Shader)
 {
 	_Shader->Bind();
+	_Mesh->Bind();
 	s_RendererAPI->Draw(_Mesh);
+	_Mesh->UnBind();
 }
 
 void Renderer::SetClearColour(const float _R, const float _G, const float _B, const float _A)

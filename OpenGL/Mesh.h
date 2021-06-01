@@ -16,15 +16,18 @@ class Mesh
 public:
 	
 	Mesh(std::string& _File);
-	Mesh(const GLfloat _PosData[]);
+	Mesh(const GLfloat* _PosData);
 	Mesh(); //Default Object
+
+	void Bind() const;
+	void UnBind() const;
 
 	int GetVertexCount();
 
 private:
 
 	//Functions
-	void CreateMesh(const GLfloat _PosData[]);
+	void CreateMesh(const GLfloat* _PosData);
 
 	//Vars
 	std::shared_ptr<VertexBuffer> m_Buffer;

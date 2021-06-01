@@ -39,6 +39,9 @@ void ShaderSystem::CreateProgram()
 	//Bind the VAO positions to the first slot during link
 	glBindAttribLocation(m_ProgramID, 0, "in_Pos");
 
+	if (glGetError() != GL_NO_ERROR)
+		throw std::exception();
+
 	glLinkProgram(m_ProgramID);
 
 	//Check if link was successful

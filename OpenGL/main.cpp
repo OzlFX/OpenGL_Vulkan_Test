@@ -29,12 +29,7 @@ int main(int argc, char *argv[])
 	if (glewInit() != GLEW_OK)
 		throw std::exception();
 
-	//Create an array of vertex positions for our makeshift triangle
-	const GLfloat pos[] = {
-		.0f, .5f, .0f,
-		-.5f, -.5f, .0f,
-		.5f, -.5f, .0f
-	};
+	std::cout << glGetString(GL_VERSION) << std::endl;
 
 	//Create vertex shader source
 	const GLchar* VertSRC =
@@ -54,7 +49,7 @@ int main(int argc, char *argv[])
 
 	Renderer::Init();
 
-	std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>(pos);
+	std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>();
 	std::shared_ptr<ShaderSystem> ShaderSys = std::make_shared<ShaderSystem>(VertSRC, FragSRC);
 	ShaderSys->CreateProgram();
 

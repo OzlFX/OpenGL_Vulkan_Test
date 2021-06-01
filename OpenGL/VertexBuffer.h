@@ -14,7 +14,7 @@ public:
 	void Bind() const;
 	void UnBind() const;
 
-	void SetData(const GLfloat _Data[], int _ComponentSize);
+	void SetData(const GLfloat* _Data, int _ComponentSize = 3);
 	int GetSize() { return m_DataSize; }
 	int GetComponentCount() { return m_Components; }
 
