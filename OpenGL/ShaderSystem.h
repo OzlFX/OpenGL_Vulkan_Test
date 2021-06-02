@@ -1,6 +1,8 @@
 #ifndef _SHADERSYSTEM_H_
 #define _SHADERSYSTEM_H_
 
+#include <unordered_map>
+
 //Temp Type Defines for OpenGL
 typedef char GLchar;
 typedef unsigned int GLuint;
@@ -12,15 +14,20 @@ public:
 	ShaderSystem(const GLchar* _Vert, const GLchar* _Frag);
 
 	void Bind() const;
-	void UnBind() const;
+	void Unbind() const;
 
 	void CreateProgram();
 	
+	void SetUniform4f(const std::string& _Name, float _V0, float _V1, float _V2, float _V3);
+
 	~ShaderSystem();
 
 private:
 
 	void CompileShaders();
+	int GetUniformLocation(const std::string& _Name);
+
+	std::unordered_map<std::string, int> m_UniformLocationCache;
 
 	GLuint m_ProgramID;
 	GLuint m_VertShaderID;

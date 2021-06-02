@@ -33,25 +33,33 @@ int main(int argc, char *argv[])
 
 	//Create vertex shader source
 	const GLchar* VertSRC =
-		"attribute vec3 in_Pos;					" \
-		"										" \
-		"void main()							" \
-		"{										" \
-		"	gl_Position = vec4(in_Pos, 1.0);	" \
-		"}										";
+		"#version 330 core\n"
+		"\n"
+		"layout(location = 0) in vec4 in_Pos;\n"
+		"\n"
+		"void main()\n"
+		"{\n"
+		"	gl_Position = in_Pos;\n"
+		"}\n";
 
 	//Create fragment shader source
 	const GLchar* FragSRC =
-		"void main()									" \
-		"{												" \
-		"	gl_FragColor = vec4(0.75, 0.5, 0.5, 1);		" \
-		"}												";
+		"#version 330 core\n"
+		"\n"
+		"layout(location = 0) out vec4 color;\n"
+		"\n"
+		"void main()\n"
+		"{\n"
+		"	color = vec4(0.75f, 0.5f, 0.5f, 1.0f);\n"
+		"}\n";
 
 	Renderer::Init();
 
 	std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>();
 	std::shared_ptr<ShaderSystem> ShaderSys = std::make_shared<ShaderSystem>(VertSRC, FragSRC);
 	ShaderSys->CreateProgram();
+	ShaderSys->SetUniform4f("in_Colour", 0.75f, 0.5f, 0.5f, 1.0f);
+	ShaderSys->Bind();
 
 	///Pass the 'mesh' (vao) to the render system with the shader, draw the object
 

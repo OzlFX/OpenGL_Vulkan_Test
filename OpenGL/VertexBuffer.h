@@ -10,9 +10,10 @@ class VertexBuffer
 public:
 
 	VertexBuffer();
+	VertexBuffer(const void* _Data, int _ComponentSize);
 
 	void Bind() const;
-	void UnBind() const;
+	void Unbind() const;
 
 	void SetData(const void* _Data, int _ComponentSize = 3);
 	int GetSize() { return m_DataSize; }

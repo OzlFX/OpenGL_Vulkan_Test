@@ -20,7 +20,7 @@ public:
 	Mesh(); //Default Object
 
 	void Bind() const;
-	void UnBind() const;
+	void Unbind() const;
 
 	int GetVertexCount();
 

@@ -22,7 +22,7 @@ void VertexArray::Bind() const
 }
 
 //Unbind our Vertex Array
-void VertexArray::UnBind() const
+void VertexArray::Unbind() const
 {
 	glBindVertexArray(0);
 }
@@ -35,13 +35,17 @@ void VertexArray::AddBuffer(std::shared_ptr<VertexBuffer> _Buffer)
 	m_Buffers.push_back(_Buffer);
 	_Buffer->Bind(); //Bind the desired VBO to the GPU
 	
+	unsigned int offset = 0;
+
 	//Assign the VBO to the first index and flag it for use
 	glEnableVertexAttribArray(m_BufferIndex);
-	glVertexAttribPointer(m_BufferIndex, _Buffer->GetComponentCount(), GL_FLOAT, GL_FALSE, _Buffer->GetComponentCount() * sizeof(GLfloat), (void*)0);
+	glVertexAttribPointer(m_BufferIndex, _Buffer->GetComponentCount(), GL_FLOAT, GL_FALSE, _Buffer->GetComponentCount() * sizeof(GLfloat), (const void*)offset);
 	
+	offset += _Buffer->GetComponentCount() * sizeof(GLfloat);
+
 	m_BufferIndex++;
 
-	_Buffer->UnBind();
+	_Buffer->Unbind();
 }
 
 int VertexArray::GetVertexCount()

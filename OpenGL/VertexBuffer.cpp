@@ -11,6 +11,20 @@ VertexBuffer::VertexBuffer() : m_Components(0), m_DataSize(0)
 		throw std::exception();
 }
 
+VertexBuffer::VertexBuffer(const void* _Data, int _ComponentSize)
+{
+	glGenBuffers(1, &m_ID); //Create a new VBO using the VBO id
+
+	if (!m_ID)
+		throw std::exception();
+
+	m_DataSize = sizeof(_Data);
+	m_Components = _ComponentSize;
+	Bind();
+	//Upload a copy of the data from memory to VBO
+	glBufferData(GL_ARRAY_BUFFER, m_Components * sizeof(GLfloat), _Data, GL_STATIC_DRAW);
+}
+
 //Bind the buffer
 void VertexBuffer::Bind() const
 {
@@ -18,7 +32,7 @@ void VertexBuffer::Bind() const
 }
 
 //Unbind the buffer
-void VertexBuffer::UnBind() const
+void VertexBuffer::Unbind() const
 {
 	glBindBuffer(GL_ARRAY_BUFFER, 0); //Unbind
 }
@@ -28,7 +42,7 @@ void VertexBuffer::SetData(const void* _Data, int _ComponentSize)
 	m_DataSize = sizeof(_Data);
 	m_Components = _ComponentSize;
 	//Upload a copy of the data from memory to VBO
-	glBufferData(GL_ARRAY_BUFFER, m_Components * sizeof(GLfloat), _Data, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, m_Components * 3 * sizeof(GLfloat), _Data, GL_STATIC_DRAW);
 }
 
 VertexBuffer::~VertexBuffer()

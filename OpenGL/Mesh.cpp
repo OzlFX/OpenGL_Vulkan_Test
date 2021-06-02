@@ -12,7 +12,7 @@ Mesh::Mesh(std::string& _File)
 Mesh::Mesh()
 {
 	//Create an array of vertex positions for our makeshift triangle
-	const GLfloat pos[3 * 3] = {
+	const GLfloat pos[] = {
 		.0f, .5f, .0f,
 		-.5f, -.5f, .0f,
 		.5f, -.5f, .0f
@@ -23,10 +23,11 @@ Mesh::Mesh()
 
 	m_Buffer->Bind();
 	m_Buffer->SetData(pos, 3);
-	m_Buffer->UnBind();
 
 	m_VertexArray->Bind();
 	m_VertexArray->AddBuffer(m_Buffer);
+	m_VertexArray->Unbind();
+	m_Buffer->Unbind();
 }
 
 void Mesh::Bind() const
@@ -34,9 +35,9 @@ void Mesh::Bind() const
 	m_VertexArray->Bind();
 }
 
-void Mesh::UnBind() const
+void Mesh::Unbind() const
 {
-	m_VertexArray->UnBind();
+	m_VertexArray->Unbind();
 }
 
 int Mesh::GetVertexCount()

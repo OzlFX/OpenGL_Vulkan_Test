@@ -17,7 +17,7 @@ public:
 	VertexArray();
 
 	void Bind() const;
-	void UnBind() const;
+	void Unbind() const;
 
 	void AddBuffer(std::shared_ptr<VertexBuffer> _Buffer);
 

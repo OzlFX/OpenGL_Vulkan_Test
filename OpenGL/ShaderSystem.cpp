@@ -22,7 +22,7 @@ void ShaderSystem::Bind() const
 }
 
 //Unbind our Shader Program
-void ShaderSystem::UnBind() const
+void ShaderSystem::Unbind() const
 {
 	glUseProgram(0);
 }
@@ -37,7 +37,7 @@ void ShaderSystem::CreateProgram()
 	glAttachShader(m_ProgramID, m_FragShaderID);
 
 	//Bind the VAO positions to the first slot during link
-	glBindAttribLocation(m_ProgramID, 0, "in_Pos");
+	//glBindAttribLocation(m_ProgramID, 0, "in_Pos");
 
 	if (glGetError() != GL_NO_ERROR)
 		throw std::exception();
@@ -68,6 +68,26 @@ void ShaderSystem::CreateProgram()
 	glDeleteShader(m_VertShaderID);
 	glDetachShader(m_ProgramID, m_FragShaderID);
 	glDeleteShader(m_FragShaderID);
+}
+
+void ShaderSystem::SetUniform4f(const std::string& _Name, float _V0, float _V1, float _V2, float _V3)
+{
+	glUniform4f(GetUniformLocation(_Name), _V0, _V1, _V2, _V3);
+}
+
+int ShaderSystem::GetUniformLocation(const std::string& _Name)
+{
+	if (m_UniformLocationCache.find(_Name) != m_UniformLocationCache.end())
+		return m_UniformLocationCache[_Name];
+
+	int location = glGetUniformLocation(m_ProgramID, _Name.c_str());
+	if (location == -1)
+		std::cout << "ERROR: Uniform " << _Name << " does not exist!" << std::endl;
+		//throw std::exception();
+
+	m_UniformLocationCache[_Name] = location;
+
+	return location;
 }
 
 //Compile the shaders for use
