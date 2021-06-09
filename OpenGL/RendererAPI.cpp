@@ -43,7 +43,7 @@ void RendererAPI::Clear()
 
 void RendererAPI::Draw(const std::shared_ptr<Mesh>& _Object)
 {
-	glDrawElements(GL_TRIANGLES, _Object->GetVertexCount(), GL_UNSIGNED_INT, nullptr);
+	glDrawArrays(GL_TRIANGLES, 0, _Object->GetVertexCount());
 }
 
 std::unique_ptr<RendererAPI> RendererAPI::Create()

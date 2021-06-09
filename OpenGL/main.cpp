@@ -37,6 +37,8 @@ int main(int argc, char *argv[])
 		.5f, -.5f, .0f
 	};
 
+	GLuint indices[] = { 0, 1, 2 };
+
 	//Create vertex shader source
 	const GLchar* VertSRC =
 		"#version 330 core\n"
@@ -78,6 +80,10 @@ int main(int argc, char *argv[])
 	mesh->CleanUp();
 
 	//std::shared_ptr<VertexBuffer> Buffer = std::make_shared<VertexBuffer>(pos, sizeof(pos));
+	//std::shared_ptr<IndexBuffer> IB = std::make_shared<IndexBuffer>(indices, sizeof(indices) / sizeof(GLuint));
+	//std::shared_ptr<VertexArray> VAO = std::make_shared<VertexArray>();
+	//VAO->AddBuffer(Buffer);
+	//VAO->SetIndexBuffer(IB);
 
 	///Pass the 'mesh' (vao) to the render system with the shader, draw the object
 	/* VERTEXBUFFER */
@@ -100,8 +106,7 @@ int main(int argc, char *argv[])
 	glBindBuffer(GL_ARRAY_BUFFER, 0); //Reset the state
 	*/
 	/* VERTEX ARRAY */
-	/*
-	GLuint VAO_ID = 0; //Set the Vertex Array Objecy ID
+	/*GLuint VAO_ID = 0; //Set the Vertex Array Objecy ID
 
 	//Create a new VAO on the GPU using the VAO id
 	glGenVertexArrays(1, &VAO_ID);
@@ -117,6 +122,7 @@ int main(int argc, char *argv[])
 	//glBindBuffer(GL_ARRAY_BUFFER, VBO_ID);
 
 	//Assign the VBO to the first index and flag it for use
+	//Stride is 12 (3 * 4)
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);
 	glEnableVertexAttribArray(0);
 
@@ -213,15 +219,15 @@ int main(int argc, char *argv[])
 		//Allow OpenGL to use our shader program & VAO
 		//ShaderSys->Bind();
 		//glBindVertexArray(VAO_ID);
-
+		//VAO->Bind();
 		//Draw
 		//glDrawArrays(GL_TRIANGLES, 0, 3);
-
+		//glDrawElements(GL_TRIANGLES, VAO->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, indices);
 		//Reset the state
 		//glBindVertexArray(0);
+		//VAO->Unbind();
 		//ShaderSys->Unbind();
 		
-
 		Renderer::Submit(mesh, ShaderSys);
 
 		SDL_GL_SwapWindow(window); //Swap the window buffers after clearing has occured

@@ -32,7 +32,7 @@ struct BufferElement
 	{
 		switch (_Type)
 		{
-			case GL_FLOAT:			return 4;
+			case GL_FLOAT:			return 3;
 			case GL_UNSIGNED_INT:	return 4;
 			case GL_UNSIGNED_BYTE:	return 1;
 		}
@@ -72,7 +72,7 @@ private:
 		{
 			element.m_Offset = offset;
 			offset += element.GetSizeOfType(element.m_Type);
-			m_Stride += element.GetSizeOfType(element.m_Type);
+			m_Stride += 3 * element.GetSizeOfType(element.m_Type);
 		}
 	}
 

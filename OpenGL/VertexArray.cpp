@@ -34,22 +34,26 @@ void VertexArray::Unbind() const
 //Set the buffer data to draw
 void VertexArray::AddBuffer(const std::shared_ptr<VertexBuffer>& _Buffer)
 {
-	if (_Buffer->GetLayout().GetElements().size() > 0)
-		std::cout << "Vertex Buffer Layout is empty for some reason!" << std::endl;
+	//if (_Buffer->GetLayout().GetElements().size() < 1)
+	//	std::cout << "Vertex Buffer Layout is empty for some reason!" << std::endl;
 	
 	Bind();
 	_Buffer->Bind(); //Bind the desired VBO to the GPU
 	
-	const auto& layout = _Buffer->GetLayout();
-	//Assign the VBO to the first index and flag it for use
-	for (const auto& element : layout)
-	{
-		glEnableVertexAttribArray(m_BufferIndex);
-		glVertexAttribPointer(m_BufferIndex, element.m_Count, element.m_Type,
-			element.m_Normalised, layout.GetStride(), (const void*)element.m_Offset);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);
+	glEnableVertexAttribArray(0);
 
-		m_BufferIndex++;
-	}
+	//const auto& layout = _Buffer->GetLayout();
+	//Assign the VBO to the first index and flag it for use
+	//for (const auto& element : layout)
+	//{
+	//	glEnableVertexAttribArray(m_BufferIndex);
+	//	glVertexAttribPointer(m_BufferIndex, element.m_Count, element.m_Type,
+	//		element.m_Normalised ? GL_TRUE : GL_FALSE, 
+	//		layout.GetStride(), (const void*)element.m_Offset);
+	//
+	//	m_BufferIndex++;
+	//}
 
 	m_Buffers.push_back(_Buffer);
 
