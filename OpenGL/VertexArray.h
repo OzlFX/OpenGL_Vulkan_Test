@@ -9,6 +9,8 @@ typedef unsigned int GLuint;
 #include <vector>
 
 class VertexBuffer;
+class BufferLayout;
+class IndexBuffer;
 
 class VertexArray
 {
@@ -19,9 +21,10 @@ public:
 	void Bind() const;
 	void Unbind() const;
 
-	void AddBuffer(std::shared_ptr<VertexBuffer> _Buffer);
+	void AddBuffer(const std::shared_ptr<VertexBuffer>& _Buffer, const std::shared_ptr<BufferLayout>& _Layout);
+	void SetIndexBuffer(const std::shared_ptr<IndexBuffer>& _IndexBuffer);
 
-	int GetVertexCount();
+	const std::shared_ptr<IndexBuffer>& GetIndexBuffer() const { return m_IndexBuffer; }
 
 	~VertexArray();
 
@@ -29,6 +32,8 @@ private:
 
 	GLuint m_ID; //Set the Vertex Array Objecy ID
 	uint32_t m_BufferIndex = 0;
+
+	std::shared_ptr<IndexBuffer> m_IndexBuffer;
 
 	std::vector<std::shared_ptr<VertexBuffer>> m_Buffers;
 

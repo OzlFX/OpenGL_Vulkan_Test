@@ -5,34 +5,31 @@
 #include <string>
 #include <memory>
 
-//Temp Type Defines for OpenGL
-typedef float GLfloat;
-
 #include "VertexBuffer.h"
+#include "IndexBuffer.h"
 #include "VertexArray.h"
 
 class Mesh
 {
 public:
 	
-	Mesh(std::string& _File);
-	Mesh(const GLfloat* _PosData);
+	//Mesh(std::string& _File);
+	//Mesh(const GLfloat* _PosData);
 	Mesh(); //Default Object
 
 	void Bind() const;
 	void Unbind() const;
 
-	int GetVertexCount();
+	void CleanUp() const;
+
+	const GLuint& GetVertexCount() const { return m_VertexArray->GetIndexBuffer()->GetCount(); }
 
 private:
 
-	//Functions
-	void CreateMesh(const GLfloat* _PosData);
-
 	//Vars
 	std::shared_ptr<VertexBuffer> m_Buffer;
-
-	std::unique_ptr<VertexArray> m_VertexArray;
+	std::shared_ptr<IndexBuffer> m_IndexBuffer;
+	std::shared_ptr<VertexArray> m_VertexArray;
 
 };
 

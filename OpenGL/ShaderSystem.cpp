@@ -6,11 +6,8 @@
 #include "ShaderSystem.h"
 
 ShaderSystem::ShaderSystem(const GLchar* _Vert, const GLchar* _Frag)
+	: m_ProgramID(0), m_VertShaderID(0), m_FragShaderID(0)
 {
-	m_ProgramID = 0;
-	m_VertShaderID = 0;
-	m_FragShaderID = 0;
-
 	m_VertSrc = _Vert;
 	m_FragSrc = _Frag;
 }
@@ -38,9 +35,6 @@ void ShaderSystem::CreateProgram()
 
 	//Bind the VAO positions to the first slot during link
 	//glBindAttribLocation(m_ProgramID, 0, "in_Pos");
-
-	if (glGetError() != GL_NO_ERROR)
-		throw std::exception();
 
 	glLinkProgram(m_ProgramID);
 
@@ -75,12 +69,12 @@ void ShaderSystem::SetUniform4f(const std::string& _Name, float _V0, float _V1, 
 	glUniform4f(GetUniformLocation(_Name), _V0, _V1, _V2, _V3);
 }
 
-int ShaderSystem::GetUniformLocation(const std::string& _Name)
+GLint ShaderSystem::GetUniformLocation(const std::string& _Name)
 {
 	if (m_UniformLocationCache.find(_Name) != m_UniformLocationCache.end())
 		return m_UniformLocationCache[_Name];
 
-	int location = glGetUniformLocation(m_ProgramID, _Name.c_str());
+	GLint location = glGetUniformLocation(m_ProgramID, _Name.c_str());
 	if (location == -1)
 		std::cout << "ERROR: Uniform " << _Name << " does not exist!" << std::endl;
 		//throw std::exception();

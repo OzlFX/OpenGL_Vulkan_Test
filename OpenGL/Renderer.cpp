@@ -25,8 +25,8 @@ void Renderer::Submit(const std::shared_ptr<Mesh>& _Mesh, const std::shared_ptr<
 	_Mesh->Bind();
 	_Shader->SetUniform4f("in_Colour", 0.75f, 0.5f, 0.5f, 1.0f);
 	s_RendererAPI->Draw(_Mesh);
-	_Mesh->Unbind();
-	_Shader->Unbind();
+	//_Mesh->Unbind();
+	//_Shader->Unbind();
 }
 
 void Renderer::SetClearColour(const float _R, const float _G, const float _B, const float _A)

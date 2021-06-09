@@ -31,15 +31,24 @@ int main(int argc, char *argv[])
 
 	std::cout << glGetString(GL_VERSION) << std::endl;
 
+	const GLfloat pos[] = {
+		.0f, .5f, .0f,
+		-.5f, -.5f, .0f,
+		.5f, -.5f, .0f
+	};
+
 	//Create vertex shader source
 	const GLchar* VertSRC =
 		"#version 330 core\n"
 		"\n"
-		"layout(location = 0) in vec4 in_Pos;\n"
+		"layout(location = 0) in vec3 in_Pos;\n"
+		"\n"
+		"out vec3 out_Pos;\n"
 		"\n"
 		"void main()\n"
 		"{\n"
-		"	gl_Position = in_Pos;\n"
+		"	out_Pos = in_Pos;"
+		"	gl_Position = vec4(in_Pos, 1.0);\n"
 		"}\n";
 
 	//Create fragment shader source
@@ -48,22 +57,29 @@ int main(int argc, char *argv[])
 		"\n"
 		"layout(location = 0) out vec4 color;\n"
 		"\n"
+		"in vec3 out_Pos;\n"
+		"\n"
+		"uniform vec4 in_Colour;\n"
+		"\n"
 		"void main()\n"
 		"{\n"
-		"	color = vec4(0.75f, 0.5f, 0.5f, 1.0f);\n"
+		"	color = in_Colour;\n"
 		"}\n";
 
 	Renderer::Init();
-
-	std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>();
-	std::shared_ptr<ShaderSystem> ShaderSys = std::make_shared<ShaderSystem>(VertSRC, FragSRC);
-	ShaderSys->CreateProgram();
-	ShaderSys->SetUniform4f("in_Colour", 0.75f, 0.5f, 0.5f, 1.0f);
-	ShaderSys->Bind();
+	
+	//std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>();
+	//std::shared_ptr<ShaderSystem> ShaderSys = std::make_shared<ShaderSystem>(VertSRC, FragSRC);
+	//ShaderSys->CreateProgram();
+	//ShaderSys->Bind();
+	//ShaderSys->SetUniform4f("in_Colour", 0.75f, 0.5f, 0.5f, 1.0f);
+	//mesh->Unbind();
+	//ShaderSys->Unbind();
+	//mesh->CleanUp();
 
 	///Pass the 'mesh' (vao) to the render system with the shader, draw the object
-
-	/*GLuint VBO_ID = 0; //Set the Vertex Buffer Object ID
+	/* VERTEXBUFFER */
+	GLuint VBO_ID = 0; //Set the Vertex Buffer Object ID
 
 	//Create a new VBO using the VBO id
 	glGenBuffers(1, &VBO_ID);
@@ -80,6 +96,7 @@ int main(int argc, char *argv[])
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0); //Reset the state
 
+	/* VERTEX ARRAY */
 	GLuint VAO_ID = 0; //Set the Vertex Array Objecy ID
 
 	//Create a new VAO on the GPU using the VAO id
@@ -103,6 +120,12 @@ int main(int argc, char *argv[])
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
+	std::shared_ptr<ShaderSystem> ShaderSys = std::make_shared<ShaderSystem>(VertSRC, FragSRC);
+	ShaderSys->CreateProgram();
+	ShaderSys->Bind();
+	ShaderSys->SetUniform4f("in_Colour", 0.75f, 0.5f, 0.5f, 1.0f);
+	ShaderSys->Unbind();
+	/*
 	//Create a new vertex shader
 	GLuint VertShaderID = glCreateShader(GL_VERTEX_SHADER);
 	
@@ -146,7 +169,7 @@ int main(int argc, char *argv[])
 	glAttachShader(programID, FragShaderID);
 
 	//Bind the VAO positions to the first slot during link
-	glBindAttribLocation(programID, 0, "in_Pos");
+	//glBindAttribLocation(programID, 0, "in_Pos");
 
 	//Link the program to the GPU
 	glLinkProgram(programID);
@@ -180,10 +203,11 @@ int main(int argc, char *argv[])
 
 		Renderer::SetClearColour(.5f, .05f, .5f, 1.0f); //Set the clear colour to purple
 		Renderer::Clear();
-
-		/*
+		//glClearColor(.5f, .05f, .5f, 1.0f);
+		//glClear(GL_COLOR_BUFFER_BIT);
+		
 		//Allow OpenGL to use our shader program & VAO
-		glUseProgram(programID);
+		ShaderSys->Bind();
 		glBindVertexArray(VAO_ID);
 
 		//Draw
@@ -191,10 +215,10 @@ int main(int argc, char *argv[])
 
 		//Reset the state
 		glBindVertexArray(0);
-		glUseProgram(0);
-		*/
+		ShaderSys->Unbind();
+		
 
-		Renderer::Submit(mesh, ShaderSys);
+		//Renderer::Submit(mesh, ShaderSys);
 
 		SDL_GL_SwapWindow(window); //Swap the window buffers after clearing has occured
 	}
