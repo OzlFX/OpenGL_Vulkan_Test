@@ -68,17 +68,20 @@ int main(int argc, char *argv[])
 
 	Renderer::Init();
 	
-	//std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>();
-	//std::shared_ptr<ShaderSystem> ShaderSys = std::make_shared<ShaderSystem>(VertSRC, FragSRC);
-	//ShaderSys->CreateProgram();
-	//ShaderSys->Bind();
-	//ShaderSys->SetUniform4f("in_Colour", 0.75f, 0.5f, 0.5f, 1.0f);
-	//mesh->Unbind();
-	//ShaderSys->Unbind();
-	//mesh->CleanUp();
+	std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>();
+	std::shared_ptr<ShaderSystem> ShaderSys = std::make_shared<ShaderSystem>(VertSRC, FragSRC);
+	ShaderSys->CreateProgram();
+	ShaderSys->Bind();
+	ShaderSys->SetUniform4f("in_Colour", 0.75f, 0.5f, 0.5f, 1.0f);
+	mesh->Unbind();
+	ShaderSys->Unbind();
+	mesh->CleanUp();
+
+	//std::shared_ptr<VertexBuffer> Buffer = std::make_shared<VertexBuffer>(pos, sizeof(pos));
 
 	///Pass the 'mesh' (vao) to the render system with the shader, draw the object
 	/* VERTEXBUFFER */
+	/*
 	GLuint VBO_ID = 0; //Set the Vertex Buffer Object ID
 
 	//Create a new VBO using the VBO id
@@ -95,8 +98,9 @@ int main(int argc, char *argv[])
 	glBufferData(GL_ARRAY_BUFFER, sizeof(pos), pos, GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0); //Reset the state
-
+	*/
 	/* VERTEX ARRAY */
+	/*
 	GLuint VAO_ID = 0; //Set the Vertex Array Objecy ID
 
 	//Create a new VAO on the GPU using the VAO id
@@ -110,7 +114,7 @@ int main(int argc, char *argv[])
 	glBindVertexArray(VAO_ID);
 
 	//Bind the newly created VBO to the GPU
-	glBindBuffer(GL_ARRAY_BUFFER, VBO_ID);
+	//glBindBuffer(GL_ARRAY_BUFFER, VBO_ID);
 
 	//Assign the VBO to the first index and flag it for use
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);
@@ -124,7 +128,7 @@ int main(int argc, char *argv[])
 	ShaderSys->CreateProgram();
 	ShaderSys->Bind();
 	ShaderSys->SetUniform4f("in_Colour", 0.75f, 0.5f, 0.5f, 1.0f);
-	ShaderSys->Unbind();
+	ShaderSys->Unbind();*/
 	/*
 	//Create a new vertex shader
 	GLuint VertShaderID = glCreateShader(GL_VERTEX_SHADER);
@@ -207,18 +211,18 @@ int main(int argc, char *argv[])
 		//glClear(GL_COLOR_BUFFER_BIT);
 		
 		//Allow OpenGL to use our shader program & VAO
-		ShaderSys->Bind();
-		glBindVertexArray(VAO_ID);
+		//ShaderSys->Bind();
+		//glBindVertexArray(VAO_ID);
 
 		//Draw
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		//glDrawArrays(GL_TRIANGLES, 0, 3);
 
 		//Reset the state
-		glBindVertexArray(0);
-		ShaderSys->Unbind();
+		//glBindVertexArray(0);
+		//ShaderSys->Unbind();
 		
 
-		//Renderer::Submit(mesh, ShaderSys);
+		Renderer::Submit(mesh, ShaderSys);
 
 		SDL_GL_SwapWindow(window); //Swap the window buffers after clearing has occured
 	}

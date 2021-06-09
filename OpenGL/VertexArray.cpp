@@ -1,5 +1,6 @@
 #include <exception>
 #include <GL/glew.h>
+#include <iostream>
 
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
@@ -31,25 +32,25 @@ void VertexArray::Unbind() const
 ///We hard code this for now since we are working with just one triangle.
 ///Will need to get components (data per line i.e. position vectors) later for models.
 //Set the buffer data to draw
-void VertexArray::AddBuffer(const std::shared_ptr<VertexBuffer>& _Buffer, const std::shared_ptr<BufferLayout>& _Layout)
+void VertexArray::AddBuffer(const std::shared_ptr<VertexBuffer>& _Buffer)
 {
+	if (_Buffer->GetLayout().GetElements().size() > 0)
+		std::cout << "Vertex Buffer Layout is empty for some reason!" << std::endl;
+	
 	Bind();
 	_Buffer->Bind(); //Bind the desired VBO to the GPU
 	
-	unsigned int offset = 0;
-
-	const auto& elements = _Layout->GetElements();
+	const auto& layout = _Buffer->GetLayout();
 	//Assign the VBO to the first index and flag it for use
-	for (unsigned int i = 0; i < elements.size(); i++)
+	for (const auto& element : layout)
 	{
-		const auto& element = elements[i];
-		glEnableVertexAttribArray(i);
-		glVertexAttribPointer(i, element.m_Count, element.m_Type,
-			element.m_Normalised, _Layout->GetStride(), (const void*)offset);
+		glEnableVertexAttribArray(m_BufferIndex);
+		glVertexAttribPointer(m_BufferIndex, element.m_Count, element.m_Type,
+			element.m_Normalised, layout.GetStride(), (const void*)element.m_Offset);
 
-		offset += element.m_Count * BufferElement::GetSizeOfType(element.m_Type);
+		m_BufferIndex++;
 	}
-	//m_BufferIndex++;
+
 	m_Buffers.push_back(_Buffer);
 
 	_Buffer->Unbind();

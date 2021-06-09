@@ -20,17 +20,17 @@ public:
 	void Unbind() const;
 
 	void SetData(const GLfloat* _Data, GLuint _Size);
-	void SetLayout(const std::shared_ptr<BufferLayout>& _Layout) { m_Layout = _Layout; }
+	void SetLayout(const BufferLayout& _Layout) { m_Layout = _Layout; }
 
 	int GetSize() { return m_DataSize; }
-	const BufferLayout& GetLayout() const { return *m_Layout; }
+	const BufferLayout& GetLayout() const { return m_Layout; }
 
 	~VertexBuffer();
 
 private:
 
 	GLuint m_ID; //Define ID
-	std::shared_ptr<BufferLayout> m_Layout;
+	BufferLayout m_Layout;
 	int m_DataSize;
 
 };

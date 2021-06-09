@@ -3,6 +3,7 @@
 
 //Includes
 #include <vector>
+#include <string>
 
 //Defines
 #define GL_FLOAT 0x1406
@@ -14,9 +15,18 @@
 
 struct BufferElement
 {
+	std::string m_Name;
 	unsigned int m_Type;
 	unsigned int m_Count;
+	size_t m_Offset;
 	unsigned char m_Normalised;
+
+	BufferElement() = default;
+
+	BufferElement(unsigned int _Type, const std::string& _Name, bool _Normalised = false)
+		: m_Name(_Name), m_Type(_Type), m_Count(GetSizeOfType(_Type)), m_Offset(0), m_Normalised(_Normalised)
+	{
+	}
 
 	static unsigned int GetSizeOfType(unsigned int _Type)
 	{
@@ -35,45 +45,39 @@ class BufferLayout
 {
 public:
 
-	BufferLayout() : m_Stride(0)
-	{
+	BufferLayout() {}
 
-	}
-
-	template<typename T>
-	void Push(unsigned int _Count)
+	BufferLayout(std::initializer_list<BufferElement> _Elements)
+		: m_Elements(_Elements)
 	{
-		static_assert(false);
+		CalculateOffsetAndStride();
 	}
 
-	template<>
-	void Push<float>(unsigned int _Count)
-	{
-		m_Elements.push_back({ GL_FLOAT, _Count, GL_FALSE });
-		m_Stride += _Count * BufferElement::GetSizeOfType(GL_FLOAT);
-	}
-	
-	template<>
-	void Push<unsigned int>(unsigned int _Count)
-	{
-		m_Elements.push_back({ GL_UNSIGNED_INT, _Count, GL_FALSE });
-		m_Stride += _Count * BufferElement::GetSizeOfType(GL_UNSIGNED_INT);
-	}
-	
-	template<>
-	void Push<unsigned char>(unsigned int _Count)
-	{
-		m_Elements.push_back({ GL_UNSIGNED_BYTE, _Count, GL_TRUE });
-		m_Stride += _Count * BufferElement::GetSizeOfType(GL_UNSIGNED_BYTE);
-	}
+	const std::vector<BufferElement>& GetElements() const { return m_Elements; }
+	uint32_t GetStride() const { return m_Stride; }
 
-	inline const std::vector<BufferElement>& GetElements() const { return m_Elements; }
-	inline unsigned int GetStride() const { return m_Stride; }
+	std::vector<BufferElement>::iterator begin() { return m_Elements.begin(); }
+	std::vector<BufferElement>::iterator end() { return m_Elements.end(); }
+	std::vector<BufferElement>::const_iterator begin() const { return m_Elements.begin(); }
+	std::vector<BufferElement>::const_iterator end() const { return m_Elements.begin(); }
 
 private:
 
+	void CalculateOffsetAndStride()
+	{
+		size_t offset = 0;
+		m_Stride = 0;
+
+		for (auto& element : m_Elements)
+		{
+			element.m_Offset = offset;
+			offset += element.GetSizeOfType(element.m_Type);
+			m_Stride += element.GetSizeOfType(element.m_Type);
+		}
+	}
+
 	std::vector<BufferElement> m_Elements;
-	unsigned int m_Stride;
+	unsigned int m_Stride = 0;
 };
 
 #endif
