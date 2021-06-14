@@ -23,6 +23,8 @@ public:
 	void Draw(const std::shared_ptr<Mesh>& _Object);
 
 	static API GetAPI() { return s_API; }
+	static void SetAPI(RendererAPI::API _API) { s_API = _API; }
+
 	static std::unique_ptr<RendererAPI> Create();
 
 	~RendererAPI();

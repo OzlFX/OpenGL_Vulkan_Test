@@ -77,7 +77,6 @@ GLint ShaderSystem::GetUniformLocation(const std::string& _Name)
 	GLint location = glGetUniformLocation(m_ProgramID, _Name.c_str());
 	if (location == -1)
 		std::cout << "ERROR: Uniform " << _Name << " does not exist!" << std::endl;
-		//throw std::exception();
 
 	m_UniformLocationCache[_Name] = location;
 

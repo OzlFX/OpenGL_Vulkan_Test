@@ -21,6 +21,8 @@ public:
 	static void Submit(const std::shared_ptr<Mesh>& _Mesh, const std::shared_ptr<ShaderSystem>& _Shader);
 
 	static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
+	static void SetAPI(RendererAPI::API _API) { RendererAPI::SetAPI(_API); }
+
 	static void SetClearColour(const float _R, const float _G, const float _B, const float _A);
 	static void Clear();
 

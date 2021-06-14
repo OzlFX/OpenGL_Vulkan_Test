@@ -4,7 +4,7 @@
 #include "IndexBuffer.h"
 
 IndexBuffer::IndexBuffer(GLuint* _Indices, GLuint _Count)
-	: m_Count(_Count)
+	: m_Count(_Count), m_Indicies(_Indices)
 {
 	glCreateBuffers(1, &m_ID);
 

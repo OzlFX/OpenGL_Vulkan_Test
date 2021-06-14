@@ -23,6 +23,7 @@ public:
 	void CleanUp() const;
 
 	const GLuint& GetVertexCount() const { return m_VertexArray->GetIndexBuffer()->GetCount(); }
+	const GLuint& GetIndexData() const { return *m_VertexArray->GetIndexBuffer()->GetIndicies(); }
 
 private:
 

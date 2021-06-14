@@ -40,6 +40,7 @@ void VertexArray::AddBuffer(const std::shared_ptr<VertexBuffer>& _Buffer)
 	Bind();
 	_Buffer->Bind(); //Bind the desired VBO to the GPU
 	
+	/// Stride needs to check the data type (GL_FLOAT etc.) and * that by the component number
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);
 	glEnableVertexAttribArray(0);
 
