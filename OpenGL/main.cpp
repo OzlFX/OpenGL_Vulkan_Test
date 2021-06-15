@@ -1,6 +1,6 @@
 #include <iostream>
 #include <GL/glew.h>
-#include <vulkan/vulkan.h>
+//#include <vulkan/vulkan.h>
 #include <memory>
 
 #define GLFW_INCLUDE_VULKAN
@@ -18,13 +18,13 @@ int main()//int argc, char *argv[])
 
 	glfwInit(); //Init glfw
 	
-	GLFWwindow* window = glfwCreateWindow(840, 640, "OpenGL/Vulkan", nullptr, nullptr);
-
 	if (Renderer::GetAPI() == RendererAPI::API::Vulkan)
 	{
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 		std::cout << "API: VULKAN" << std::endl;
 	}
+
+	GLFWwindow* window = glfwCreateWindow(840, 640, "OpenGL/Vulkan", nullptr, nullptr);
 
 	if (Renderer::GetAPI() == RendererAPI::API::OpenGL)
 	{
@@ -34,14 +34,17 @@ int main()//int argc, char *argv[])
 
 	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE); //Prevent window resizing
 
-	glfwMakeContextCurrent(window); //Create the context for the window
+	if (Renderer::GetAPI() == RendererAPI::API::OpenGL)
+	{
+		glfwMakeContextCurrent(window); //Create the context for the window
 
-	//Initialise GLEW
-	const GLenum err = glewInit();
-	if (GLEW_OK != err)
-		std::cout << glewGetErrorString(err) << std::endl;
+		//Initialise GLEW
+		const GLenum err = glewInit();
+		if (GLEW_OK != err)
+			std::cout << glewGetErrorString(err) << std::endl;
 
-	std::cout << glGetString(GL_VERSION) << std::endl;
+		std::cout << glGetString(GL_VERSION) << std::endl;
+	}
 
 	const GLfloat pos[] = {
 		.0f, .5f, .0f,

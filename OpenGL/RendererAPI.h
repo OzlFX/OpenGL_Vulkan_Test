@@ -4,7 +4,7 @@
 //Includes
 #include <memory>
 
-class Mesh;
+#include "Mesh.h"
 
 class RendererAPI
 {
@@ -14,20 +14,20 @@ public:
 		None = 0, OpenGL = 1, Vulkan = 2
 	};
 
-	void Init();
+	virtual ~RendererAPI() = default;
 
-	void SetViewport(uint32_t _X, uint32_t _Y, uint32_t _Width, uint32_t _Height);
-	void SetClearColour(const float _R, const float _G, const float _B, const float _A);
-	void Clear();
+	virtual void Init() = 0;
 
-	void Draw(const std::shared_ptr<Mesh>& _Object);
+	virtual void SetViewport(uint32_t _X, uint32_t _Y, uint32_t _Width, uint32_t _Height) = 0;
+	virtual void SetClearColour(const float _R, const float _G, const float _B, const float _A) = 0;
+	virtual void Clear() = 0;
+
+	virtual void Draw(const std::shared_ptr<Mesh>& _Object) = 0;
 
 	static API GetAPI() { return s_API; }
 	static void SetAPI(RendererAPI::API _API) { s_API = _API; }
 
 	static std::unique_ptr<RendererAPI> Create();
-
-	~RendererAPI();
 
 private:
 
