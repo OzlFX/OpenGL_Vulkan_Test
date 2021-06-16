@@ -11,7 +11,7 @@ void Renderer::Init()
 
 void Renderer::Shutdown()
 {
-
+	s_RendererAPI->Shutdown();
 }
 
 void Renderer::WindowResize(uint32_t _Width, uint32_t _Height)

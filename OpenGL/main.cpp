@@ -106,6 +106,7 @@ int main()//int argc, char *argv[])
 		glfwPollEvents();
 	}
 
+	Renderer::Shutdown();
 	glfwDestroyWindow(window);
 	glfwTerminate();
 

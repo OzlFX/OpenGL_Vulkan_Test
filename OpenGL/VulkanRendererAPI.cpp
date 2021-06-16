@@ -1,10 +1,14 @@
-#define GLFW_INCLUDE_VULKAN
-#include <GLFW/glfw3.h>
-
 #include "VulkanRendererAPI.h"
+#include <iostream>
 
 void VulkanRendererAPI::Init()
 {
+	if (m_EnableValidationLayers && !CheckValidationLayerProperties())
+	{
+		std::cout << "Validation Layers requested but not available!" << std::endl;
+		throw std::exception();
+	}
+
 	///May need to move all this
 	VkApplicationInfo appInfo{};
 
@@ -53,4 +57,35 @@ void VulkanRendererAPI::Clear()
 void VulkanRendererAPI::Draw(const std::shared_ptr<Mesh>& _Object)
 {
 	
+}
+
+void VulkanRendererAPI::Shutdown()
+{
+	vkDestroyInstance(m_Instance, nullptr);
+}
+
+bool VulkanRendererAPI::CheckValidationLayerProperties()
+{
+	uint32_t layerCount;
+	vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
+
+	std::vector<VkLayerProperties> availableLayers(layerCount);
+	vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
+
+	for (auto& layerName : m_ValidationLayers)
+	{
+		bool layerFound = false;
+
+		for (const auto& layerProperties : availableLayers)
+		{
+			if (layerName.compare(layerProperties.layerName) == 0)
+				layerFound = true;
+				break;
+		}
+
+		if (!layerFound)
+			return false;
+	}
+
+	return true;
 }

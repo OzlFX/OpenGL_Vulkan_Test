@@ -24,6 +24,8 @@ public:
 
 	virtual void Draw(const std::shared_ptr<Mesh>& _Object) = 0;
 
+	virtual void Shutdown() = 0;
+
 	static API GetAPI() { return s_API; }
 	static void SetAPI(RendererAPI::API _API) { s_API = _API; }
 

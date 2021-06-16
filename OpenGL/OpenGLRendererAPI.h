@@ -15,6 +15,8 @@ public:
 
 	virtual void Draw(const std::shared_ptr<Mesh>& _Object) override;
 
+	virtual void Shutdown() override;
+
 };
 
 #endif
