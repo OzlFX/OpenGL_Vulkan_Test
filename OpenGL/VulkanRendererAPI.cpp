@@ -72,6 +72,11 @@ bool VulkanRendererAPI::CheckValidationLayerProperties()
 	std::vector<VkLayerProperties> availableLayers(layerCount);
 	vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
 
+	for (auto& log : availableLayers)
+	{
+		std::cout << log.layerName << std::endl;
+	}
+
 	for (auto& layerName : m_ValidationLayers)
 	{
 		bool layerFound = false;
@@ -79,8 +84,10 @@ bool VulkanRendererAPI::CheckValidationLayerProperties()
 		for (const auto& layerProperties : availableLayers)
 		{
 			if (layerName.compare(layerProperties.layerName) == 0)
+			{
 				layerFound = true;
 				break;
+			}
 		}
 
 		if (!layerFound)

@@ -26,9 +26,8 @@ public:
 
 	virtual void Shutdown() = 0;
 
-	static API GetAPI() { return s_API; }
-	static void SetAPI(RendererAPI::API _API) { s_API = _API; }
-
+	static const API GetAPI() { return s_API; }
+	
 	static std::unique_ptr<RendererAPI> Create();
 
 private:
