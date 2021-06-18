@@ -24,7 +24,8 @@ public:
 
 private:
 
-	bool CheckValidationLayerProperties();
+	bool CheckValidationLayerProperties(); //Check Layer Validation
+	std::vector<const char*> GetRequiredExtensions(); //Get the required extensions
 
 	const std::vector<std::string> m_ValidationLayers = { "VK_LAYER_KHRONOS_validation" };
 

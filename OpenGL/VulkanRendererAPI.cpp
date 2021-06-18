@@ -25,13 +25,10 @@ void VulkanRendererAPI::Init()
 	createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 	createInfo.pApplicationInfo = &appInfo;
 
-	//Setup vulkan for glfw
-	uint32_t glfwExtensionCount = 0;
-	const char** glfwExtensions;
-	glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
+	auto extensions = GetRequiredExtensions();
 
-	createInfo.enabledExtensionCount = glfwExtensionCount;
-	createInfo.ppEnabledExtensionNames = glfwExtensions;
+	createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
+	createInfo.ppEnabledExtensionNames = extensions.data();
 
 	createInfo.enabledLayerCount = 0;
 
@@ -72,17 +69,16 @@ bool VulkanRendererAPI::CheckValidationLayerProperties()
 	std::vector<VkLayerProperties> availableLayers(layerCount);
 	vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
 
-	for (auto& log : availableLayers)
-	{
-		std::cout << log.layerName << std::endl;
-	}
-
+	//Loop through the layers
 	for (auto& layerName : m_ValidationLayers)
 	{
 		bool layerFound = false;
 
+		//Loop through the Vulkan layer properties
 		for (const auto& layerProperties : availableLayers)
 		{
+			//Compare the current layer name with the validation layer vector
+			//to find the validation layer, break once found
 			if (layerName.compare(layerProperties.layerName) == 0)
 			{
 				layerFound = true;
@@ -95,4 +91,20 @@ bool VulkanRendererAPI::CheckValidationLayerProperties()
 	}
 
 	return true;
+}
+
+std::vector<const char*> VulkanRendererAPI::GetRequiredExtensions()
+{
+	//Setup vulkan for glfw
+	uint32_t glfwExtensionCount = 0;
+	const char** glfwExtensions;
+	glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
+
+	std::vector<const char*> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
+
+	//Enable debug extension in debug mode
+	if (m_EnableValidationLayers)
+		extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+
+	return extensions;
 }
