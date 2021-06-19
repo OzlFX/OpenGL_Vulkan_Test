@@ -29,6 +29,13 @@ private:
 
 	const std::vector<std::string> m_ValidationLayers = { "VK_LAYER_KHRONOS_validation" };
 
+	static VKAPI_ATTR VkBool32 VKAPI_CALL DebugCallback(
+		VkDebugUtilsMessageSeverityFlagBitsEXT _MessageSeverity,
+		VkDebugUtilsMessageTypeFlagsEXT _MessageType,
+		const VkDebugUtilsMessengerCallbackDataEXT* _pCallbackData,
+		void* _pUserData
+	);
+
 	VkInstance m_Instance;
 
 #ifdef NDEBUG

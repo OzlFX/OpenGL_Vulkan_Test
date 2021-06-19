@@ -108,3 +108,14 @@ std::vector<const char*> VulkanRendererAPI::GetRequiredExtensions()
 
 	return extensions;
 }
+
+VKAPI_ATTR VkBool32 VKAPI_CALL VulkanRendererAPI::DebugCallback(
+	VkDebugUtilsMessageSeverityFlagBitsEXT _MessageSeverity, 
+	VkDebugUtilsMessageTypeFlagsEXT _MessageType, 
+	const VkDebugUtilsMessengerCallbackDataEXT* _pCallbackData, 
+	void* _pUserData)
+{
+	std::cerr << "Validation layer: " << _pCallbackData->pMessage << std::endl;
+
+	return VK_FALSE;
+}
