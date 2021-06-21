@@ -24,19 +24,33 @@ public:
 
 private:
 
-	bool CheckValidationLayerProperties(); //Check Layer Validation
+	VkResult CreateDebugUtilsMessengerExt(VkInstance _Instance,
+		const VkDebugUtilsMessengerCreateInfoEXT* _CreateInfo,
+		const VkAllocationCallbacks* _Allocator,
+		VkDebugUtilsMessengerEXT* _DebugMessenger); //Proxy function to handle address lookup of debug messenger
+
+	void DestroyDebugUtilsMessengerEXT(VkInstance _Instance,
+		VkDebugUtilsMessengerEXT* _DebugMessenger, 
+		const VkAllocationCallbacks* _Allocator); //Proxy function to handle destruction of debug messenger
+
+	bool CheckValidationLayerSupport(); //Check Layer Validation
 	std::vector<const char*> GetRequiredExtensions(); //Get the required extensions
 
-	const std::vector<std::string> m_ValidationLayers = { "VK_LAYER_KHRONOS_validation" };
+	const std::vector<const char*> m_ValidationLayers = { "VK_LAYER_KHRONOS_validation" };
+
+	void SetupDebugMessenger();
 
 	static VKAPI_ATTR VkBool32 VKAPI_CALL DebugCallback(
 		VkDebugUtilsMessageSeverityFlagBitsEXT _MessageSeverity,
 		VkDebugUtilsMessageTypeFlagsEXT _MessageType,
-		const VkDebugUtilsMessengerCallbackDataEXT* _pCallbackData,
-		void* _pUserData
+		const VkDebugUtilsMessengerCallbackDataEXT* _CallbackData,
+		void* _UserData
 	);
 
+	void PopulateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& _CreateInfo);
+
 	VkInstance m_Instance;
+	VkDebugUtilsMessengerEXT m_DebugMessenger;
 
 #ifdef NDEBUG
 	const bool m_EnableValidationLayers = false;

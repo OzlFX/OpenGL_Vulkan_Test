@@ -3,9 +3,9 @@
 
 void VulkanRendererAPI::Init()
 {
-	if (m_EnableValidationLayers && !CheckValidationLayerProperties())
+	if (m_EnableValidationLayers && !CheckValidationLayerSupport())
 	{
-		std::cout << "Validation Layers requested but not available!" << std::endl;
+		std::cout << "Validation Layers requested but not available!\n";
 		throw std::exception();
 	}
 
@@ -30,8 +30,21 @@ void VulkanRendererAPI::Init()
 	createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
 	createInfo.ppEnabledExtensionNames = extensions.data();
 
-	createInfo.enabledLayerCount = 0;
+	VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo{};
+	if (m_EnableValidationLayers)
+	{
+		createInfo.enabledLayerCount = static_cast<uint32_t>(m_ValidationLayers.size());
+		createInfo.ppEnabledLayerNames = m_ValidationLayers.data();
 
+		PopulateDebugMessengerCreateInfo(debugCreateInfo);
+		createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*)&debugCreateInfo;
+	}
+	else
+	{
+		createInfo.enabledLayerCount = 0;
+		createInfo.pNext = nullptr;
+	}
+	
 	if (vkCreateInstance(&createInfo, nullptr, &m_Instance) != VK_SUCCESS)
 		throw std::exception();
 }
@@ -58,10 +71,45 @@ void VulkanRendererAPI::Draw(const std::shared_ptr<Mesh>& _Object)
 
 void VulkanRendererAPI::Shutdown()
 {
+	if (m_EnableValidationLayers)
+		DestroyDebugUtilsMessengerEXT(m_Instance, &m_DebugMessenger, nullptr);
+
 	vkDestroyInstance(m_Instance, nullptr);
 }
 
-bool VulkanRendererAPI::CheckValidationLayerProperties()
+VkResult VulkanRendererAPI::CreateDebugUtilsMessengerExt(VkInstance _Instance,
+	const VkDebugUtilsMessengerCreateInfoEXT* _CreateInfo,
+	const VkAllocationCallbacks* _Allocator,
+	VkDebugUtilsMessengerEXT* _DebugMessenger)
+{
+	//Get the create debug messenger extended function's memory address
+	auto func = (PFN_vkCreateDebugUtilsMessengerEXT) 
+		vkGetInstanceProcAddr(_Instance, "vkCreateDebugUtilsMessengerEXT");
+
+	//Check if the function is valid and can be found
+	if (func != nullptr)
+	{
+		return func(_Instance, _CreateInfo, _Allocator, _DebugMessenger);
+	}
+	else
+	{
+		return VK_ERROR_EXTENSION_NOT_PRESENT;
+	}
+}
+
+void VulkanRendererAPI::DestroyDebugUtilsMessengerEXT(VkInstance _Instance,
+	VkDebugUtilsMessengerEXT* _DebugMessenger,
+	const VkAllocationCallbacks* _Allocator)
+{
+	//Get the destroy debug messenger extended function's memory address
+	auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)
+		vkGetInstanceProcAddr(_Instance, "vkDestroyDebugUtilsMessengerEXT");
+
+	if (func != nullptr)
+		func(_Instance, m_DebugMessenger, _Allocator);
+}
+
+bool VulkanRendererAPI::CheckValidationLayerSupport()
 {
 	uint32_t layerCount;
 	vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
@@ -79,7 +127,7 @@ bool VulkanRendererAPI::CheckValidationLayerProperties()
 		{
 			//Compare the current layer name with the validation layer vector
 			//to find the validation layer, break once found
-			if (layerName.compare(layerProperties.layerName) == 0)
+			if (strcmp(layerName, layerProperties.layerName) == 0)
 			{
 				layerFound = true;
 				break;
@@ -109,13 +157,44 @@ std::vector<const char*> VulkanRendererAPI::GetRequiredExtensions()
 	return extensions;
 }
 
+void VulkanRendererAPI::SetupDebugMessenger()
+{
+	if (!m_EnableValidationLayers) return;
+
+	VkDebugUtilsMessengerCreateInfoEXT createInfo;
+	PopulateDebugMessengerCreateInfo(createInfo);
+
+	if (CreateDebugUtilsMessengerExt(m_Instance, &createInfo, nullptr, &m_DebugMessenger) != VK_SUCCESS)
+	{
+		std::cout << "Failed to setup debug messenger!\n";
+		throw std::exception();
+	}
+}
+
 VKAPI_ATTR VkBool32 VKAPI_CALL VulkanRendererAPI::DebugCallback(
 	VkDebugUtilsMessageSeverityFlagBitsEXT _MessageSeverity, 
 	VkDebugUtilsMessageTypeFlagsEXT _MessageType, 
-	const VkDebugUtilsMessengerCallbackDataEXT* _pCallbackData, 
-	void* _pUserData)
+	const VkDebugUtilsMessengerCallbackDataEXT* _CallbackData, 
+	void* _UserData)
 {
-	std::cerr << "Validation layer: " << _pCallbackData->pMessage << std::endl;
+	std::cerr << "Validation layer: " << _CallbackData->pMessage << "\n";
 
 	return VK_FALSE;
+}
+
+void VulkanRendererAPI::PopulateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& _CreateInfo)
+{
+	_CreateInfo = {};
+	_CreateInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+	_CreateInfo.messageSeverity = 
+		VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | 
+		VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | 
+		VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+
+	_CreateInfo.messageType =
+		VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT |
+		VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT |
+		VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+
+	_CreateInfo.pfnUserCallback = DebugCallback;
 }
