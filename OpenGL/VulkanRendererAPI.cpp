@@ -47,6 +47,29 @@ void VulkanRendererAPI::Init()
 	
 	if (vkCreateInstance(&createInfo, nullptr, &m_Instance) != VK_SUCCESS)
 		throw std::exception();
+
+	VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
+
+	uint32_t deviceCount = 0;
+	vkEnumeratePhysicalDevices(m_Instance, &deviceCount, nullptr);
+
+	if (deviceCount == 0)
+	{
+		std::cout << "Could not find GPUs with Vulkan support!\n";
+		throw std::exception();
+	}
+
+	std::vector<VkPhysicalDevice> devices(deviceCount);
+	vkEnumeratePhysicalDevices(m_Instance, &deviceCount, devices.data());
+
+	for (const auto& device : devices)
+	{
+		if (device != VK_NULL_HANDLE)
+		{
+			physicalDevice = device;
+			break;
+		}
+	}
 }
 
 void VulkanRendererAPI::SetViewport(uint32_t _X, uint32_t _Y, uint32_t _Width, uint32_t _Height)
