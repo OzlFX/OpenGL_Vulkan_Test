@@ -48,28 +48,7 @@ void VulkanRendererAPI::Init()
 	if (vkCreateInstance(&createInfo, nullptr, &m_Instance) != VK_SUCCESS)
 		throw std::exception();
 
-	VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
-
-	uint32_t deviceCount = 0;
-	vkEnumeratePhysicalDevices(m_Instance, &deviceCount, nullptr);
-
-	if (deviceCount == 0)
-	{
-		std::cout << "Could not find GPUs with Vulkan support!\n";
-		throw std::exception();
-	}
-
-	std::vector<VkPhysicalDevice> devices(deviceCount);
-	vkEnumeratePhysicalDevices(m_Instance, &deviceCount, devices.data());
-
-	for (const auto& device : devices)
-	{
-		if (device != VK_NULL_HANDLE)
-		{
-			physicalDevice = device;
-			break;
-		}
-	}
+	PickPhysicalDevice();
 }
 
 void VulkanRendererAPI::SetViewport(uint32_t _X, uint32_t _Y, uint32_t _Width, uint32_t _Height)
@@ -98,6 +77,51 @@ void VulkanRendererAPI::Shutdown()
 		DestroyDebugUtilsMessengerEXT(m_Instance, &m_DebugMessenger, nullptr);
 
 	vkDestroyInstance(m_Instance, nullptr);
+}
+
+void VulkanRendererAPI::PickPhysicalDevice()
+{
+	VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
+
+	uint32_t deviceCount = 0;
+	vkEnumeratePhysicalDevices(m_Instance, &deviceCount, nullptr);
+
+	if (deviceCount == 0)
+	{
+		std::cout << "Could not find GPUs with Vulkan support!\n";
+		throw std::exception();
+	}
+
+	std::vector<VkPhysicalDevice> devices(deviceCount);
+	vkEnumeratePhysicalDevices(m_Instance, &deviceCount, devices.data());
+
+	for (const auto& device : devices)
+	{
+		if (IsDeviceSuitable(device))
+		{
+			physicalDevice = device;
+			break;
+		}
+	}
+
+	if (physicalDevice == VK_NULL_HANDLE)
+	{
+		std::cout << "Failed to find a compatible GPU\n";
+		///Eventually, we want to switch back to OpenGL if Vulkan cant be used.
+		///For now, throw exception
+		throw std::exception();
+	}
+}
+
+bool VulkanRendererAPI::IsDeviceSuitable(VkPhysicalDevice _Device)
+{
+	VkPhysicalDeviceProperties deviceProps;
+	VkPhysicalDeviceFeatures deviceFeatures;
+	vkGetPhysicalDeviceProperties(_Device, &deviceProps);
+	vkGetPhysicalDeviceFeatures(_Device, &deviceFeatures);
+
+	return deviceProps.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU &&
+		deviceFeatures.geometryShader;
 }
 
 VkResult VulkanRendererAPI::CreateDebugUtilsMessengerExt(VkInstance _Instance,

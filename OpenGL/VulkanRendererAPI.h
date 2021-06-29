@@ -24,6 +24,9 @@ public:
 
 private:
 
+	void PickPhysicalDevice();
+	bool IsDeviceSuitable(VkPhysicalDevice _Device);
+
 	VkResult CreateDebugUtilsMessengerExt(VkInstance _Instance,
 		const VkDebugUtilsMessengerCreateInfoEXT* _CreateInfo,
 		const VkAllocationCallbacks* _Allocator,
