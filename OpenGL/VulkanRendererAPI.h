@@ -5,6 +5,7 @@
 #include <GLFW/glfw3.h>
 #include <vector>
 #include <string>
+#include <optional>
 
 #include "RendererAPI.h"
 
@@ -24,8 +25,16 @@ public:
 
 private:
 
+	struct QueueFamilyIndices
+	{
+		std::optional<uint32_t> m_GraphicsFamily;
+
+		bool IsComplete() { return m_GraphicsFamily.has_value(); }
+	};
+
 	void PickPhysicalDevice();
 	bool IsDeviceSuitable(VkPhysicalDevice _Device);
+	QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice _Device);
 
 	VkResult CreateDebugUtilsMessengerExt(VkInstance _Instance,
 		const VkDebugUtilsMessengerCreateInfoEXT* _CreateInfo,

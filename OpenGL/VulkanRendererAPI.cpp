@@ -115,13 +115,34 @@ void VulkanRendererAPI::PickPhysicalDevice()
 
 bool VulkanRendererAPI::IsDeviceSuitable(VkPhysicalDevice _Device)
 {
-	VkPhysicalDeviceProperties deviceProps;
-	VkPhysicalDeviceFeatures deviceFeatures;
-	vkGetPhysicalDeviceProperties(_Device, &deviceProps);
-	vkGetPhysicalDeviceFeatures(_Device, &deviceFeatures);
+	QueueFamilyIndices indices = FindQueueFamilies(_Device);
+	return indices.IsComplete();
+}
 
-	return deviceProps.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU &&
-		deviceFeatures.geometryShader;
+VulkanRendererAPI::QueueFamilyIndices 
+VulkanRendererAPI::FindQueueFamilies(VkPhysicalDevice _Device)
+{
+	QueueFamilyIndices indices;
+
+	uint32_t queueFamilyCount = 0;
+	vkGetPhysicalDeviceQueueFamilyProperties(_Device, &queueFamilyCount, nullptr); //Get queue family properties
+
+	std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
+	vkGetPhysicalDeviceQueueFamilyProperties(_Device, &queueFamilyCount, queueFamilies.data());
+
+	int i = 0;
+	for (const auto& queueFamily : queueFamilies)
+	{
+		if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)
+			indices.m_GraphicsFamily = i;
+
+		if (indices.IsComplete())
+			break;
+
+		i++;
+	}
+
+	return indices;
 }
 
 VkResult VulkanRendererAPI::CreateDebugUtilsMessengerExt(VkInstance _Instance,
