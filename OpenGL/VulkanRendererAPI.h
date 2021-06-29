@@ -36,6 +36,8 @@ private:
 	bool IsDeviceSuitable(VkPhysicalDevice _Device);
 	QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice _Device);
 
+	void CreateLogicalDevice();
+
 	VkResult CreateDebugUtilsMessengerExt(VkInstance _Instance,
 		const VkDebugUtilsMessengerCreateInfoEXT* _CreateInfo,
 		const VkAllocationCallbacks* _Allocator,
@@ -63,6 +65,9 @@ private:
 
 	VkInstance m_Instance;
 	VkDebugUtilsMessengerEXT m_DebugMessenger;
+
+	VkPhysicalDevice m_PhysicalDevice = VK_NULL_HANDLE;
+	VkDevice m_Device;
 
 #ifdef NDEBUG
 	const bool m_EnableValidationLayers = false;

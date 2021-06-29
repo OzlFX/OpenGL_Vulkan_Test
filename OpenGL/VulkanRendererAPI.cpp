@@ -81,8 +81,6 @@ void VulkanRendererAPI::Shutdown()
 
 void VulkanRendererAPI::PickPhysicalDevice()
 {
-	VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
-
 	uint32_t deviceCount = 0;
 	vkEnumeratePhysicalDevices(m_Instance, &deviceCount, nullptr);
 
@@ -99,12 +97,12 @@ void VulkanRendererAPI::PickPhysicalDevice()
 	{
 		if (IsDeviceSuitable(device))
 		{
-			physicalDevice = device;
+			m_PhysicalDevice = device;
 			break;
 		}
 	}
 
-	if (physicalDevice == VK_NULL_HANDLE)
+	if (m_PhysicalDevice == VK_NULL_HANDLE)
 	{
 		std::cout << "Failed to find a compatible GPU\n";
 		///Eventually, we want to switch back to OpenGL if Vulkan cant be used.
@@ -143,6 +141,19 @@ VulkanRendererAPI::FindQueueFamilies(VkPhysicalDevice _Device)
 	}
 
 	return indices;
+}
+
+void VulkanRendererAPI::CreateLogicalDevice()
+{
+	QueueFamilyIndices indices = FindQueueFamilies(m_PhysicalDevice);
+
+	VkDeviceQueueCreateInfo queueCreateInfo{};
+	queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+	queueCreateInfo.queueFamilyIndex = indices.m_GraphicsFamily.value();
+	queueCreateInfo.queueCount = 1;
+
+	float queuePriority = 1.0f;
+	queueCreateInfo.pQueuePriorities = &queuePriority;
 }
 
 VkResult VulkanRendererAPI::CreateDebugUtilsMessengerExt(VkInstance _Instance,
