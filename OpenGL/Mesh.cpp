@@ -22,15 +22,15 @@ Mesh::Mesh()
 	GLuint indices[] = { 0, 1, 2 };
 
 	m_Buffer = std::make_shared<VertexBuffer>(pos, sizeof(pos));
-	//BufferLayout Layout = { { GL_FLOAT, "in_Pos" } };
+	BufferLayout Layout = { { GL_FLOAT, "in_Pos" } };
 	m_VertexArray = std::make_shared<VertexArray>();
-	//m_IndexBuffer = std::make_shared<IndexBuffer>(indices, sizeof(indices) / sizeof(GLuint));
+	m_IndexBuffer = std::make_shared<IndexBuffer>(indices, sizeof(indices));
 
-	//m_Buffer->SetData(pos, sizeof(pos));
-	//m_Buffer->SetLayout(Layout);
+	m_Buffer->SetData(pos, sizeof(pos));
+	m_Buffer->SetLayout(Layout);
 
 	m_VertexArray->AddBuffer(m_Buffer);
-	//m_VertexArray->SetIndexBuffer(m_IndexBuffer);
+	m_VertexArray->SetIndexBuffer(m_IndexBuffer);
 }
 
 void Mesh::Bind() const

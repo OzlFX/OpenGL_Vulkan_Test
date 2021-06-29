@@ -41,20 +41,20 @@ void VertexArray::AddBuffer(const std::shared_ptr<VertexBuffer>& _Buffer)
 	_Buffer->Bind(); //Bind the desired VBO to the GPU
 	
 	/// Stride needs to check the data type (GL_FLOAT etc.) and * that by the component number
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);
-	glEnableVertexAttribArray(0);
+	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);
+	//glEnableVertexAttribArray(0);
 
-	//const auto& layout = _Buffer->GetLayout();
+	const auto& layout = _Buffer->GetLayout();
 	//Assign the VBO to the first index and flag it for use
-	//for (const auto& element : layout)
-	//{
-	//	glEnableVertexAttribArray(m_BufferIndex);
-	//	glVertexAttribPointer(m_BufferIndex, element.m_Count, element.m_Type,
-	//		element.m_Normalised ? GL_TRUE : GL_FALSE, 
-	//		layout.GetStride(), (const void*)element.m_Offset);
-	//
-	//	m_BufferIndex++;
-	//}
+	for (const auto& element : layout)
+	{
+		glEnableVertexAttribArray(m_BufferIndex);
+		glVertexAttribPointer(m_BufferIndex, element.m_Count, element.m_Type,
+			element.m_Normalised ? GL_TRUE : GL_FALSE, 
+			layout.GetStride(), (const void*)element.m_Offset);
+	
+		m_BufferIndex++;
+	}
 
 	m_Buffers.push_back(_Buffer);
 

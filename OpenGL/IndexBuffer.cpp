@@ -12,7 +12,7 @@ IndexBuffer::IndexBuffer(GLuint* _Indices, GLuint _Count)
 		throw std::exception();
 
 	Bind();
-	glBufferData(GL_ARRAY_BUFFER, _Count * sizeof(GLuint), _Indices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, _Count * sizeof(GLuint), _Indices, GL_STATIC_DRAW);
 }
 
 void IndexBuffer::Bind() const

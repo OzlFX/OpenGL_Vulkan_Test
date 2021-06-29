@@ -39,8 +39,7 @@ void OpenGLRendererAPI::Clear()
 
 void OpenGLRendererAPI::Draw(const std::shared_ptr<Mesh>& _Object)
 {
-	//glDrawElements(GL_TRIANGLES, _Object->GetVertexCount(), GL_UNSIGNED_INT, &_Object->GetIndexData());
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glDrawElements(GL_TRIANGLES, _Object->GetVertexCount(), GL_UNSIGNED_INT, nullptr);
 }
 
 void OpenGLRendererAPI::Shutdown()
