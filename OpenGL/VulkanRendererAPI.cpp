@@ -48,7 +48,10 @@ void VulkanRendererAPI::Init()
 	if (vkCreateInstance(&createInfo, nullptr, &m_Instance) != VK_SUCCESS)
 		throw std::exception();
 
+	SetupDebugMessenger();
+	CreateSurface();
 	PickPhysicalDevice();
+	CreateLogicalDevice();
 }
 
 void VulkanRendererAPI::SetViewport(uint32_t _X, uint32_t _Y, uint32_t _Width, uint32_t _Height)
@@ -73,10 +76,24 @@ void VulkanRendererAPI::Draw(const std::shared_ptr<Mesh>& _Object)
 
 void VulkanRendererAPI::Shutdown()
 {
+	vkDestroyDevice(m_Device, nullptr);
+
 	if (m_EnableValidationLayers)
 		DestroyDebugUtilsMessengerEXT(m_Instance, &m_DebugMessenger, nullptr);
 
+	vkDestroySurfaceKHR(m_Instance, m_Surface, nullptr);
 	vkDestroyInstance(m_Instance, nullptr);
+}
+
+/* Private Functions for Vulkan */
+
+void VulkanRendererAPI::CreateSurface()
+{
+	if (glfwCreateWindowSurface(m_Instance, , nullptr, &m_Surface) != VK_SUCCESS) ///Need to figure out how to get the window here without parsing it in or obtaining the vulkan instance
+	{
+		std::cout << "Failed to create window surface\n";
+		throw std::exception();
+	}
 }
 
 void VulkanRendererAPI::PickPhysicalDevice()
@@ -134,6 +151,12 @@ VulkanRendererAPI::FindQueueFamilies(VkPhysicalDevice _Device)
 		if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)
 			indices.m_GraphicsFamily = i;
 
+		VkBool32 presentSupport = false;
+		vkGetPhysicalDeviceSurfaceSupportKHR(_Device, i, m_Surface, &presentSupport);
+
+		if (presentSupport)
+			indices.m_PresentFamily = i;
+
 		if (indices.IsComplete())
 			break;
 
@@ -154,6 +177,37 @@ void VulkanRendererAPI::CreateLogicalDevice()
 
 	float queuePriority = 1.0f;
 	queueCreateInfo.pQueuePriorities = &queuePriority;
+
+	VkPhysicalDeviceFeatures deviceFeatures{};
+
+	//Create the logical device info
+	VkDeviceCreateInfo createInfo{};
+	createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+	createInfo.pQueueCreateInfos = &queueCreateInfo;
+	createInfo.queueCreateInfoCount = 1;
+
+	createInfo.pEnabledFeatures = &deviceFeatures;
+
+	createInfo.enabledExtensionCount = 0;
+
+	//Check if the validation layers are enabled
+	if (m_EnableValidationLayers)
+	{
+		createInfo.enabledLayerCount = static_cast<uint32_t>(m_ValidationLayers.size()); //Get the enabled layers
+		createInfo.ppEnabledLayerNames = m_ValidationLayers.data(); //Get the layer names
+	}
+	else
+	{
+		createInfo.enabledLayerCount = 0; //Disable layers for the created info
+	}
+
+	if (vkCreateDevice(m_PhysicalDevice, &createInfo, nullptr, &m_Device) != VK_SUCCESS)
+	{
+		std::cout << "Logical device creation failed\n";
+		throw std::exception();
+	}
+
+	vkGetDeviceQueue(m_Device, indices.m_GraphicsFamily.value(), 0, &m_GraphicsQueue);
 }
 
 VkResult VulkanRendererAPI::CreateDebugUtilsMessengerExt(VkInstance _Instance,

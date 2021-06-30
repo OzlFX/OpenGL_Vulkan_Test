@@ -85,14 +85,14 @@ int main()//int argc, char *argv[])
 
 	Renderer::Init();
 	
-	std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>();
-	std::shared_ptr<ShaderSystem> ShaderSys = std::make_shared<ShaderSystem>(VertSRC, FragSRC);
-	ShaderSys->CreateProgram();
-	ShaderSys->Bind();
-	ShaderSys->SetUniform4f("in_Colour", 0.75f, 0.5f, 0.5f, 1.0f);
-	mesh->Unbind();
-	ShaderSys->Unbind();
-	mesh->CleanUp();
+	//std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>();
+	//std::shared_ptr<ShaderSystem> ShaderSys = std::make_shared<ShaderSystem>(VertSRC, FragSRC);
+	//ShaderSys->CreateProgram();
+	//ShaderSys->Bind();
+	//ShaderSys->SetUniform4f("in_Colour", 0.75f, 0.5f, 0.5f, 1.0f);
+	//mesh->Unbind();
+	//ShaderSys->Unbind();
+	//mesh->CleanUp();
 
 	//Main run handler
 	while (!glfwWindowShouldClose(window))
@@ -100,7 +100,7 @@ int main()//int argc, char *argv[])
 		Renderer::SetClearColour(.5f, .05f, .5f, 1.0f); //Set the clear colour to purple
 		Renderer::Clear();
 		
-		Renderer::Submit(mesh, ShaderSys);
+		//Renderer::Submit(mesh, ShaderSys);
 
 		glfwSwapBuffers(window); //Swap the window buffers after clearing has occured
 		glfwPollEvents();

@@ -28,10 +28,13 @@ private:
 	struct QueueFamilyIndices
 	{
 		std::optional<uint32_t> m_GraphicsFamily;
+		std::optional<uint32_t> m_PresentFamily;
 
-		bool IsComplete() { return m_GraphicsFamily.has_value(); }
+		bool IsComplete() { return m_GraphicsFamily.has_value() && 
+			m_PresentFamily.has_value(); }
 	};
 
+	void CreateSurface();
 	void PickPhysicalDevice();
 	bool IsDeviceSuitable(VkPhysicalDevice _Device);
 	QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice _Device);
@@ -65,9 +68,11 @@ private:
 
 	VkInstance m_Instance;
 	VkDebugUtilsMessengerEXT m_DebugMessenger;
+	VkSurfaceKHR m_Surface;
 
 	VkPhysicalDevice m_PhysicalDevice = VK_NULL_HANDLE;
 	VkDevice m_Device;
+	VkQueue m_GraphicsQueue;
 
 #ifdef NDEBUG
 	const bool m_EnableValidationLayers = false;
