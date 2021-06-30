@@ -48,12 +48,57 @@ void VertexArray::AddBuffer(const std::shared_ptr<VertexBuffer>& _Buffer)
 	//Assign the VBO to the first index and flag it for use
 	for (const auto& element : layout)
 	{
-		glEnableVertexAttribArray(m_BufferIndex);
-		glVertexAttribPointer(m_BufferIndex, element.m_Count, element.m_Type,
-			element.m_Normalised ? GL_TRUE : GL_FALSE, 
-			layout.GetStride(), (const void*)element.m_Offset);
-	
-		m_BufferIndex++;
+		switch (element.m_Type)
+		{
+			case DataType::Float:
+			case DataType::Float2:
+			case DataType::Float3:
+			case DataType::Float4:
+			{
+				glEnableVertexAttribArray(m_BufferIndex);
+				glVertexAttribPointer(m_BufferIndex,
+					element.GetComponentCount(),
+					DataTypeToOpenGLType(element.m_Type),
+					element.m_Normalised ? GL_TRUE : GL_FALSE,
+					layout.GetStride(),
+					(const void*)element.m_Offset);
+				m_BufferIndex++;
+				break;
+			}
+			case DataType::Int:
+			case DataType::Int2:
+			case DataType::Int3:
+			case DataType::Int4:
+			case DataType::Bool:
+			{
+				glEnableVertexAttribArray(m_BufferIndex);
+				glVertexAttribIPointer(m_BufferIndex,
+					element.GetComponentCount(),
+					DataTypeToOpenGLType(element.m_Type),
+					layout.GetStride(),
+					(const void*)element.m_Offset);
+				m_BufferIndex++;
+				break;
+			}
+			case DataType::Mat3:
+			case DataType::Mat4:
+			{
+				uint8_t count = element.GetComponentCount();
+				for (uint8_t i = 0; i < count; i++)
+				{
+					glEnableVertexAttribArray(m_BufferIndex);
+					glVertexAttribPointer(m_BufferIndex,
+						count,
+						DataTypeToOpenGLType(element.m_Type),
+						element.m_Normalised ? GL_TRUE : GL_FALSE,
+						layout.GetStride(),
+						(const void*)(element.m_Offset + sizeof(float) * count * i));
+					glVertexAttribDivisor(m_BufferIndex, 1);
+					m_BufferIndex++;
+				}
+				break;
+			}
+		}
 	}
 
 	m_Buffers.push_back(_Buffer);
@@ -70,4 +115,24 @@ void VertexArray::SetIndexBuffer(const std::shared_ptr<IndexBuffer>& _IndexBuffe
 VertexArray::~VertexArray()
 {
 	glDeleteVertexArrays(1, &m_ID); //Delete VAO
+}
+
+GLenum VertexArray::DataTypeToOpenGLType(DataType _Type)
+{
+	switch (_Type)
+	{
+		case DataType::Float:    return GL_FLOAT;
+		case DataType::Float2:   return GL_FLOAT;
+		case DataType::Float3:   return GL_FLOAT;
+		case DataType::Float4:   return GL_FLOAT;
+		case DataType::Mat3:     return GL_FLOAT;
+		case DataType::Mat4:     return GL_FLOAT;
+		case DataType::Int:      return GL_INT;
+		case DataType::Int2:     return GL_INT;
+		case DataType::Int3:     return GL_INT;
+		case DataType::Int4:     return GL_INT;
+		case DataType::Bool:     return GL_BOOL;
+	}
+
+	return 0;
 }

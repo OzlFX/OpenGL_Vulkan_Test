@@ -22,7 +22,7 @@ Mesh::Mesh()
 	GLuint indices[] = { 0, 1, 2 };
 
 	m_Buffer = std::make_shared<VertexBuffer>(pos, sizeof(pos));
-	BufferLayout Layout = { { GL_FLOAT, "in_Pos" } };
+	BufferLayout Layout = { { DataType::Float3, "in_Pos" } };
 	m_VertexArray = std::make_shared<VertexArray>();
 	m_IndexBuffer = std::make_shared<IndexBuffer>(indices, sizeof(indices));
 

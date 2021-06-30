@@ -22,8 +22,8 @@ public:
 	void SetData(const GLfloat* _Data, GLuint _Size);
 	void SetLayout(const BufferLayout& _Layout) { m_Layout = _Layout; }
 
-	int GetSize() { return m_DataSize; }
-	const BufferLayout& GetLayout() const { return m_Layout; }
+	const int GetSize() { return m_DataSize; }
+	const BufferLayout& GetLayout() { return m_Layout; }
 
 	~VertexBuffer();
 

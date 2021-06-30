@@ -13,31 +13,62 @@
 #define GL_FALSE 0
 #define GL_TRUE 1
 
+enum class DataType
+{
+	None = 0, Float, Float2, Float3, Float4, Mat3, Mat4, Int, Int2, Int3, Int4, Bool
+};
+
+static uint32_t GetSizeOfType(DataType _Type)
+{
+	switch (_Type)
+	{
+	case DataType::Float:		return 4;
+	case DataType::Float2:		return 4 * 2;
+	case DataType::Float3:		return 4 * 3;
+	case DataType::Float4:		return 4 * 4;
+	case DataType::Mat3:		return 4 * 3 * 3;
+	case DataType::Mat4:		return 4 * 4 * 4;
+	case DataType::Int:			return 4;
+	case DataType::Int2:		return 4 * 2;
+	case DataType::Int3:		return 4 * 3;
+	case DataType::Int4:		return 4 * 4;
+	case DataType::Bool:		return 1;
+	}
+
+	return 0;
+}
+
 struct BufferElement
 {
 	std::string m_Name;
-	unsigned int m_Type;
-	unsigned int m_Count;
+	DataType m_Type;
+	uint32_t m_Size;
 	size_t m_Offset;
 	unsigned char m_Normalised;
 
 	BufferElement() = default;
 
-	BufferElement(unsigned int _Type, const std::string& _Name, bool _Normalised = false)
-		: m_Name(_Name), m_Type(_Type), m_Count(GetSizeOfType(_Type)), m_Offset(0), m_Normalised(_Normalised)
+	BufferElement(DataType _Type, const std::string& _Name, bool _Normalised = false)
+		: m_Name(_Name), m_Type(_Type), m_Size(GetSizeOfType(_Type)), m_Offset(0), m_Normalised(_Normalised)
 	{
 	}
 
-	static unsigned int GetSizeOfType(unsigned int _Type)
+	uint32_t GetComponentCount() const
 	{
-		switch (_Type)
+		switch (m_Type)
 		{
-			case GL_FLOAT:			return 4;
-			case GL_UNSIGNED_INT:	return 4;
-			case GL_UNSIGNED_BYTE:	return 1;
+			case DataType::Float:		return 1;
+			case DataType::Float2:		return 2;
+			case DataType::Float3:		return 3;
+			case DataType::Float4:		return 4;
+			case DataType::Mat3:		return 3;
+			case DataType::Mat4:		return 4;
+			case DataType::Int:			return 1;
+			case DataType::Int2:		return 2;
+			case DataType::Int3:		return 3;
+			case DataType::Int4:		return 4;
+			case DataType::Bool:		return 1;
 		}
-
-		return 0;
 	}
 };
 
@@ -59,7 +90,7 @@ public:
 	std::vector<BufferElement>::iterator begin() { return m_Elements.begin(); }
 	std::vector<BufferElement>::iterator end() { return m_Elements.end(); }
 	std::vector<BufferElement>::const_iterator begin() const { return m_Elements.begin(); }
-	std::vector<BufferElement>::const_iterator end() const { return m_Elements.begin(); }
+	std::vector<BufferElement>::const_iterator end() const { return m_Elements.end(); }
 
 private:
 
@@ -77,7 +108,7 @@ private:
 	}
 
 	std::vector<BufferElement> m_Elements;
-	unsigned int m_Stride = 0;
+	uint32_t m_Stride = 0;
 };
 
 #endif
