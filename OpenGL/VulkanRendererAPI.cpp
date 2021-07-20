@@ -89,11 +89,11 @@ void VulkanRendererAPI::Shutdown()
 
 void VulkanRendererAPI::CreateSurface()
 {
-	if (glfwCreateWindowSurface(m_Instance, , nullptr, &m_Surface) != VK_SUCCESS) ///Need to figure out how to get the window here without parsing it in or obtaining the vulkan instance
-	{
-		std::cout << "Failed to create window surface\n";
-		throw std::exception();
-	}
+	//if (glfwCreateWindowSurface(m_Instance, , nullptr, &m_Surface) != VK_SUCCESS) ///Need to figure out how to get the window here without parsing it in or obtaining the vulkan instance
+	//{
+	//	std::cout << "Failed to create window surface\n";
+	//	throw std::exception();
+	//}
 }
 
 void VulkanRendererAPI::PickPhysicalDevice()

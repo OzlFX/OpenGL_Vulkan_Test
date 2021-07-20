@@ -14,19 +14,24 @@ Mesh::Mesh()
 {
 	//Create an array of vertex positions for our makeshift triangle
 	const GLfloat pos[] = {
-		.0f, .5f, .0f,
-		-.5f, -.5f, .0f,
-		.5f, -.5f, .0f
+		-0.5f, -0.5f, 0.0f,
+		 0.0f, -0.5f, 0.0f,
+		-0.5f,  0.5f, 0.0f
 	};
 
-	GLuint indices[] = { 0, 1, 2 };
+	//Use the indices to render our triangle as a square by plotting 
+	//the points to rerender in a defined order
+	GLuint indices[] =
+	{ 
+		0, 1, 2, 2, 3, 0
+	};
 
 	m_Buffer = std::make_shared<VertexBuffer>(pos, sizeof(pos));
 	BufferLayout Layout = { { DataType::Float3, "in_Pos" } };
 	m_VertexArray = std::make_shared<VertexArray>();
 	m_IndexBuffer = std::make_shared<IndexBuffer>(indices, sizeof(indices));
 
-	m_Buffer->SetData(pos, sizeof(pos));
+	//m_Buffer->SetData(pos, sizeof(pos));
 	m_Buffer->SetLayout(Layout);
 
 	m_VertexArray->AddBuffer(m_Buffer);

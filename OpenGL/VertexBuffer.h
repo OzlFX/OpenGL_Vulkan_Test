@@ -31,7 +31,7 @@ private:
 
 	GLuint m_ID; //Define ID
 	BufferLayout m_Layout;
-	int m_DataSize;
+	unsigned int m_DataSize;
 
 };
 
