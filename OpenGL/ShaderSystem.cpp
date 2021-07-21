@@ -5,6 +5,8 @@
 #include "VertexArray.h"
 #include "ShaderSystem.h"
 
+#include <glm/ext.hpp>
+
 ShaderSystem::ShaderSystem(const GLchar* _Vert, const GLchar* _Frag)
 	: m_ProgramID(0), m_VertShaderID(0), m_FragShaderID(0)
 {
@@ -64,9 +66,29 @@ void ShaderSystem::CreateProgram()
 	glDeleteShader(m_FragShaderID);
 }
 
+void ShaderSystem::SetUniform3f(const std::string& _Name, float _V0, float _V1, float _V2)
+{
+	glUniform3f(GetUniformLocation(_Name), _V0, _V1, _V2);
+}
+
+void ShaderSystem::SetUniform3f(const std::string& _Name, glm::vec3 _Value)
+{
+	glUniform3f(GetUniformLocation(_Name), _Value.x, _Value.y, _Value.z);
+}
+
 void ShaderSystem::SetUniform4f(const std::string& _Name, float _V0, float _V1, float _V2, float _V3)
 {
 	glUniform4f(GetUniformLocation(_Name), _V0, _V1, _V2, _V3);
+}
+
+void ShaderSystem::SetUniform4f(const std::string& _Name, glm::vec4 _Value)
+{
+	glUniform4f(GetUniformLocation(_Name), _Value.x, _Value.y, _Value.z, _Value.w);
+}
+
+void ShaderSystem::SetUniformMat4(const std::string& _Name, glm::mat4 _Value)
+{
+	glUniformMatrix4fv(GetUniformLocation(_Name), 1, GL_FALSE, glm::value_ptr(_Value));
 }
 
 GLint ShaderSystem::GetUniformLocation(const std::string& _Name)

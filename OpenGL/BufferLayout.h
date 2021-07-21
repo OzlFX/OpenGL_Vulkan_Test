@@ -22,17 +22,17 @@ static uint32_t GetSizeOfType(DataType _Type)
 {
 	switch (_Type)
 	{
-	case DataType::Float:		return 4;
-	case DataType::Float2:		return 4 * 2;
-	case DataType::Float3:		return 4 * 3;
-	case DataType::Float4:		return 4 * 4;
-	case DataType::Mat3:		return 4 * 3 * 3;
-	case DataType::Mat4:		return 4 * 4 * 4;
-	case DataType::Int:			return 4;
-	case DataType::Int2:		return 4 * 2;
-	case DataType::Int3:		return 4 * 3;
-	case DataType::Int4:		return 4 * 4;
-	case DataType::Bool:		return 1;
+		case DataType::Float:		return 4;
+		case DataType::Float2:		return 4 * 2;
+		case DataType::Float3:		return 4 * 3;
+		case DataType::Float4:		return 4 * 4;
+		case DataType::Mat3:		return 4 * 3 * 3;
+		case DataType::Mat4:		return 4 * 4 * 4;
+		case DataType::Int:			return 4;
+		case DataType::Int2:		return 4 * 2;
+		case DataType::Int3:		return 4 * 3;
+		case DataType::Int4:		return 4 * 4;
+		case DataType::Bool:		return 1;
 	}
 
 	return 0;
@@ -102,8 +102,8 @@ private:
 		for (auto& element : m_Elements)
 		{
 			element.m_Offset = offset;
-			offset += sizeof(element.m_Type);
-			m_Stride += sizeof(element.m_Type);
+			offset += element.m_Size;
+			m_Stride += element.m_Size;
 		}
 	}
 

@@ -22,7 +22,7 @@ VertexBuffer::VertexBuffer(const void* _Data, GLuint _Size)
 
 	Bind();
 	//Upload a copy of the data from memory to VBO
-	glBufferData(GL_ARRAY_BUFFER, _Size, _Data, GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, _Size, _Data, GL_STATIC_DRAW);
 }
 
 //Bind the buffer

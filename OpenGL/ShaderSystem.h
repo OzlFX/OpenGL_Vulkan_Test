@@ -2,6 +2,7 @@
 #define _SHADERSYSTEM_H_
 
 #include <unordered_map>
+#include <glm/glm.hpp>
 
 //Temp Type Defines for OpenGL
 typedef char GLchar;
@@ -18,7 +19,13 @@ public:
 
 	void CreateProgram();
 	
+	void SetUniform3f(const std::string& _Name, float _V0, float _V1, float _V2);
+	void SetUniform3f(const std::string& _Name, glm::vec3 _Value);
+
 	void SetUniform4f(const std::string& _Name, float _V0, float _V1, float _V2, float _V3);
+	void SetUniform4f(const std::string& _Name, glm::vec4 _Value);
+
+	void SetUniformMat4(const std::string& _Name, glm::mat4 _Value);
 
 	~ShaderSystem();
 

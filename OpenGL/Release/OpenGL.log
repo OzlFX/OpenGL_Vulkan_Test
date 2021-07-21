@@ -1,0 +1,19 @@
+﻿  IndexBuffer.cpp
+  main.cpp
+  Mesh.cpp
+  OpenGLRendererAPI.cpp
+  Renderer.cpp
+  RendererAPI.cpp
+  ShaderSystem.cpp
+  VertexArray.cpp
+  VertexBuffer.cpp
+  VulkanRendererAPI.cpp
+LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+G:\Programming_Work\OpenGL\OpenGL\BufferLayout.h(72): warning C4715: 'BufferElement::GetComponentCount': not all control paths return a value
+G:\Programming_Work\OpenGL\OpenGL\Mesh.h(25): warning C4172: returning address of local variable or temporary
+  All 877 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+glew32s.lib(glew.obj) : warning LNK4099: PDB '' was not found with 'glew32s.lib(glew.obj)' or at ''; linking object as if no debug info
+  OpenGL.vcxproj -> G:\Programming_Work\OpenGL\Release\OpenGL.exe

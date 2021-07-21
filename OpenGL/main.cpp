@@ -52,12 +52,15 @@ int main()//int argc, char *argv[])
 		"\n"
 		"layout(location = 0) in vec3 in_Pos;\n"
 		"\n"
+		"uniform mat4 u_ViewProjection;\n"
+		"uniform mat4 u_Transform;\n"
+		"\n"
 		"out vec3 out_Pos;\n"
 		"\n"
 		"void main()\n"
 		"{\n"
 		"	out_Pos = in_Pos;"
-		"	gl_Position = vec4(in_Pos, 1.0);\n"
+		"	gl_Position = u_ViewProjection * u_Transform * vec4(in_Pos, 1.0);\n"
 		"}\n";
 
 	//Create fragment shader source
