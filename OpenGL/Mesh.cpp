@@ -14,15 +14,15 @@ Mesh::Mesh()
 {
 	//Create an array of vertex positions for our makeshift triangle
 	const GLfloat pos[] = {
-		 -1.5f, -0.5f, 0.0f,
-		 -0.5f, -0.5f, 0.0f,
-		 -0.5f,  0.5f, 0.0f,
-		 -1.5f,  0.5f, 0.0f,
+		 -1.5f, -0.5f, 0.0f, 0.18f, 0.6f, 0.96f, 1.0f,
+		 -0.5f, -0.5f, 0.0f, 0.18f, 0.6f, 0.96f, 1.0f,
+		 -0.5f,  0.5f, 0.0f, 0.18f, 0.6f, 0.96f, 1.0f,
+		 -1.5f,  0.5f, 0.0f, 0.18f, 0.6f, 0.96f, 1.0f,
 
-		  0.5f, -0.5f, 0.0f,
-		  1.5f, -0.5f, 0.0f,
-		  1.5f,  0.5f, 0.0f,
-		  0.5f,  0.5f, 0.0f
+		  0.5f, -0.5f, 0.0f, 0.6f, 0.87f, 0.02f, 1.0f,
+		  1.5f, -0.5f, 0.0f, 0.6f, 0.87f, 0.02f, 1.0f,
+		  1.5f,  0.5f, 0.0f, 0.6f, 0.87f, 0.02f, 1.0f,
+		  0.5f,  0.5f, 0.0f, 0.6f, 0.87f, 0.02f, 1.0f
 	};
 
 	//Use the indices to render our triangle as a square by plotting 
@@ -36,7 +36,8 @@ Mesh::Mesh()
 	m_VertexArray = std::make_shared<VertexArray>();
 
 	m_Buffer = std::make_shared<VertexBuffer>(pos, sizeof(pos));
-	BufferLayout Layout = { { DataType::Float3, "in_Pos" } };
+	BufferLayout Layout = { { DataType::Float3, "in_Pos" },
+							{ DataType::Float4, "in_Colour"} };
 	
 	m_IndexBuffer = std::make_shared<IndexBuffer>(indices, sizeof(indices));
 
