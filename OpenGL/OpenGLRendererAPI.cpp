@@ -1,6 +1,9 @@
 #include "OpenGLRendererAPI.h"
 
 #include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include <iostream>
+
 static void GLAPIENTRY
 MessageCallback(GLenum _Source,
 	GLenum _Type,
@@ -17,6 +20,9 @@ MessageCallback(GLenum _Source,
 
 void OpenGLRendererAPI::Init()
 {
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	std::cout << "API: OPENGL" << std::endl;
+
 	glDebugMessageCallback(MessageCallback, nullptr);
 	glEnable(GL_DEBUG_OUTPUT);
 	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);

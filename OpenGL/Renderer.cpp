@@ -25,7 +25,7 @@ void Renderer::Submit(const std::shared_ptr<Mesh>& _Mesh, const std::shared_ptr<
 	glm::mat4 proj = glm::ortho(-2.0f, 2.0f, -1.5f, 1.5f, -1.0f, 1.0f);
 	_Shader->Bind();
 	_Mesh->Bind();
-	_Shader->SetUniform4f("in_Colour", 0.75f, 0.5f, 0.5f, 1.0f);
+	//_Shader->SetUniform4f("in_Colour", 0.75f, 0.5f, 0.5f, 1.0f);
 	_Shader->SetUniformMat4("u_ViewProjection", proj);
 	_Shader->SetUniformMat4("u_Transform", glm::mat4(1.0f));
 	s_RendererAPI->Draw(_Mesh);

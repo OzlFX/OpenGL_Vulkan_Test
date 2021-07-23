@@ -3,6 +3,9 @@
 
 void VulkanRendererAPI::Init()
 {
+	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+	std::cout << "API: VULKAN" << std::endl;
+
 	if (m_EnableValidationLayers && !CheckValidationLayerSupport())
 	{
 		std::cout << "Validation Layers requested but not available!\n";
