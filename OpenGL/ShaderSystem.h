@@ -32,7 +32,7 @@ public:
 private:
 
 	void CompileShaders();
-	int GetUniformLocation(const std::string& _Name);
+	GLint GetUniformLocation(const std::string& _Name);
 
 	std::unordered_map<std::string, int> m_UniformLocationCache;
 

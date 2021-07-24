@@ -7,8 +7,18 @@
 
 #include "Window.h"
 
-Window::Window(unsigned int _Width, unsigned int _Height, const std::string& _Title)
+std::unique_ptr<Window> Window::Create(unsigned int _Width, unsigned int _Height, const std::string& _Title)
 {
+	return std::make_unique<Window>(_Width, _Height, _Title);
+}
+
+//Initialise the window with a width, height and title
+Window::Window(unsigned int _Width, unsigned int _Height, const std::string& _Title)
+	: m_Width(_Width), m_Height(_Height)
+{
+	m_ScreenSize.x = _Width;
+	m_ScreenSize.x = _Height;
+
 	glfwInit(); //Init glfw
 
 	m_Window = glfwCreateWindow(_Width, _Height, _Title.c_str(), nullptr, nullptr);
@@ -17,11 +27,6 @@ Window::Window(unsigned int _Width, unsigned int _Height, const std::string& _Ti
 
 	m_Context = Context::Create(m_Window);
 	m_Context->Init();
-}
-
-std::unique_ptr<Window> Window::Create(unsigned int _Width, unsigned int _Height, const std::string& _Title)
-{
-	return std::make_unique<Window>(_Width, _Height, _Title);
 }
 
 void Window::OnUpdate()
