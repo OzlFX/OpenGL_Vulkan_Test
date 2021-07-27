@@ -66,6 +66,11 @@ void ShaderSystem::CreateProgram()
 	glDeleteShader(m_FragShaderID);
 }
 
+void ShaderSystem::SetUniform1i(const std::string& _Name, int _Value)
+{
+	glUniform1i(GetUniformLocation(_Name), _Value);
+}
+
 void ShaderSystem::SetUniform3f(const std::string& _Name, float _V0, float _V1, float _V2)
 {
 	glUniform3f(GetUniformLocation(_Name), _V0, _V1, _V2);

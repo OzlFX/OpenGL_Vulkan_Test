@@ -1,0 +1,27 @@
+#ifndef _TEXTURE_H_
+#define _TEXTURE_H_
+
+#include <string>
+#include "Resource.h"
+
+class Texture
+{
+public:
+
+	Texture(const std::string& _File);
+
+	void Bind(unsigned int _Slot = 0) const; //Bind a texture to a slot
+	void Unbind() const;
+
+	~Texture();
+
+private:
+
+	unsigned int m_ID;
+	std::string m_FilePath;
+	unsigned char* m_Buffer;
+	int m_Width, m_Height, m_BPP;
+
+};
+
+#endif

@@ -7,6 +7,7 @@
 //Temp Type Defines for OpenGL
 typedef char GLchar;
 typedef unsigned int GLuint;
+typedef int GLint;
 
 class ShaderSystem
 {
@@ -19,6 +20,7 @@ public:
 
 	void CreateProgram();
 	
+	void SetUniform1i(const std::string& _Name, int _Value);
 	void SetUniform3f(const std::string& _Name, float _V0, float _V1, float _V2);
 	void SetUniform3f(const std::string& _Name, glm::vec3 _Value);
 
