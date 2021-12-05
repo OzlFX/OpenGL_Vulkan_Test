@@ -2,7 +2,7 @@
 #include <stb_image.h>
 #include <GL/glew.h>
 
-Texture::Texture(const std::string& _File)
+Texture::Texture(std::string& _File)
 	: m_FilePath(_File), m_Buffer(nullptr), m_Width(0), m_Height(0), m_BPP(0)
 {
 	stbi_set_flip_vertically_on_load(1); //Flip so OpenGL can read texture from bottom left

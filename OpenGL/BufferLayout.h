@@ -69,6 +69,8 @@ struct BufferElement
 			case DataType::Int4:		return 4;
 			case DataType::Bool:		return 1;
 		}
+
+		return 0;
 	}
 };
 
