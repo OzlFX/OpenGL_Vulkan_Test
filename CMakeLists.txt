@@ -9,12 +9,13 @@ include_directories(
 	Dependencies/stb_vorbis
 	Dependencies/GLFW/include
 	Dependencies/glew-2.2.0/include
+	Dependencies/Vulkan/1.2.198.1/include
 )
 
 link_directories(
 	${CMAKE_SOURCE_DIR}/Dependencies/GLFW/lib
 	${CMAKE_SOURCE_DIR}/Dependencies/glew-2.2.0/lib/Release/x64
-	${CMAKE_SOURCE_DIR}/Dependencies/Vulkan/lib
+	${CMAKE_SOURCE_DIR}/Dependencies/Vulkan/1.2.198.1/lib
 )
 
 #Add main executable
