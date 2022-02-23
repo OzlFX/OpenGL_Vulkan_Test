@@ -1,7 +1,7 @@
 #ifndef _VULKANCONTEXT_H_
 #define _VULKANCONTEXT_H_
 
-#define GLFW_INCLUDE_VULKAN
+#include <vulkan.h>
 #include <GLFW/glfw3.h>
 #include <vector>
 #include <string>

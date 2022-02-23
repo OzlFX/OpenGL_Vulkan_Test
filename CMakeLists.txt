@@ -25,6 +25,8 @@ add_executable(OpenGL_Vulkan
 	OpenGL/Context.cpp
 	OpenGL/OpenGLContext.h
 	OpenGL/OpenGLContext.cpp
+	OpenGL/VulkanContext.h
+	OpenGL/VulkanContext.cpp
 	OpenGL/EntryPoint.h
 	OpenGL/IndexBuffer.h
 	OpenGL/IndexBuffer.cpp
@@ -53,3 +55,5 @@ add_executable(OpenGL_Vulkan
 )
 
 target_link_libraries(OpenGL_Vulkan glfw3 glew32 vulkan-1)
+
+target_compile_features(OpenGL_Vulkan PUBLIC cxx_std_17)
