@@ -10,12 +10,14 @@ include_directories(
 	Dependencies/GLFW/include
 	Dependencies/glew-2.2.0/include
 	Dependencies/Vulkan/1.2.198.1/include
+	Dependencies/assimp/include
 )
 
 link_directories(
 	${CMAKE_SOURCE_DIR}/Dependencies/GLFW/lib
 	${CMAKE_SOURCE_DIR}/Dependencies/glew-2.2.0/lib/Release/x64
 	${CMAKE_SOURCE_DIR}/Dependencies/Vulkan/1.2.198.1/lib
+	${CMAKE_SOURCE_DIR}/Dependencies/assimp/lib/release
 )
 
 #Add main executable
@@ -54,6 +56,6 @@ add_executable(OpenGL_Vulkan
 	OpenGL/main.cpp
 )
 
-target_link_libraries(OpenGL_Vulkan glfw3 glew32 vulkan-1)
+target_link_libraries(OpenGL_Vulkan glfw3 glew32 vulkan-1 assimp-vc143-mt)
 
 target_compile_features(OpenGL_Vulkan PUBLIC cxx_std_17)

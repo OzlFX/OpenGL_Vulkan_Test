@@ -1,13 +1,37 @@
 #include <GL/glew.h>
+#include <fstream>
+#include <iostream>
 
 #include "Mesh.h"
 #include "BufferLayout.h"
 
 //Mesh Constructor which loads a defined object file
-//Mesh::Mesh(std::string& _File)
-//{
-//
-//}
+Mesh::Mesh(std::string& _File)
+{
+	/// This will be replaced with a robust utility to load files
+	std::ifstream input(_File.c_str()); //Load the file
+
+	//Check if the file is not open, throw an error if not
+	if (!input.is_open())
+		std::cerr << "File could not be opened\n";
+}
+
+Mesh::Mesh(const GLfloat* _PosData, GLuint* _Indices)
+{
+	m_VertexArray = std::make_shared<VertexArray>();
+
+	m_Buffer = std::make_shared<VertexBuffer>(_PosData, sizeof(_PosData));
+	BufferLayout Layout = { { DataType::Float3, "in_Pos" },
+							{ DataType::Float4, "in_Colour"} };
+
+	m_IndexBuffer = std::make_shared<IndexBuffer>(_Indices, sizeof(_Indices));
+
+	//m_Buffer->SetData(pos, sizeof(pos));
+	m_Buffer->SetLayout(Layout);
+
+	m_VertexArray->AddBuffer(m_Buffer);
+	m_VertexArray->SetIndexBuffer(m_IndexBuffer);
+}
 
 //Default Mesh Constructor for no defined object, uses default mesh
 Mesh::Mesh()

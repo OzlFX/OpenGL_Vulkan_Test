@@ -13,9 +13,9 @@ class Mesh
 {
 public:
 	
-	//Mesh(std::string& _File);
-	//Mesh(const GLfloat* _PosData);
-	Mesh(); //Default Object
+	Mesh(std::string& _File);
+	Mesh(const GLfloat* _PosData, GLuint* _Indices);
+	Mesh(); //Default Mesh
 
 	void Bind() const; //Bind the Mesh Data for usage in the renderer
 	void Unbind() const; //Unbind the Mesh Data from the renderer
