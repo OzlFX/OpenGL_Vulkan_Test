@@ -13,7 +13,7 @@ class Mesh
 {
 public:
 	
-	Mesh(std::string& _File);
+	Mesh(const std::string& _File);
 	Mesh(const GLfloat* _PosData, GLuint* _Indices);
 	Mesh(); //Default Mesh
 

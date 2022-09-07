@@ -4,7 +4,6 @@ project(OpenGL_Vulkan)
 include_directories(
 	src
 	Dependencies/glm
-	Dependencies/imgui
 	Dependencies/stb_image
 	Dependencies/stb_vorbis
 	Dependencies/GLFW/include
@@ -20,8 +19,32 @@ link_directories(
 	${CMAKE_SOURCE_DIR}/Dependencies/assimp/lib/release
 )
 
+#add_library(
+#	glfw3 SHARED IMPORTED
+#	glew32 SHARED IMPORTED
+#	vulkan-1 SHARED IMPORTED
+#	assimp-vc143-mt SHARED IMPORTED
+#)
+
+#set_property(
+#	TARGET glfw3 PROPERTY IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/Dependencies/GLFW/lib
+#	TARGET glew32 PROPERTY IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/Dependencies/glew-2.2.0/bin/Release/x64
+#	TARGET vulkan-1 PROPERTY IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/Dependencies/Vulkan/1.2.198.1/bin
+#	TARGET assimp-vc143-mt PROPERTY IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/Dependencies/assimp/DLL/Release
+#)
+
+#set_property(
+#	TARGET glfw3 PROPERTY IMPORTED_IMPLIB ${CMAKE_SOURCE_DIR}/Dependencies/GLFW/lib
+#	TARGET glew32 PROPERTY IMPORTED_IMPLIB ${CMAKE_SOURCE_DIR}/Dependencies/glew-2.2.0/lib/Release/x64
+#	TARGET vulkan-1 PROPERTY IMPORTED_IMPLIB ${CMAKE_SOURCE_DIR}/Dependencies/Vulkan/1.2.198.1/lib
+#	TARGET assimp-vc143-mt PROPERTY IMPORTED_IMPLIB ${CMAKE_SOURCE_DIR}/Dependencies/assimp/lib/Release
+#)
+
 #Add main executable
 add_executable(OpenGL_Vulkan
+	OpenGL/Resource.h
+	OpenGL/ResourceLoader.h
+	OpenGL/ResourceLoader.cpp
 	OpenGL/BufferLayout.h
 	OpenGL/Context.h
 	OpenGL/Context.cpp
@@ -42,7 +65,6 @@ add_executable(OpenGL_Vulkan
 	OpenGL/OpenGLRendererAPI.cpp
 	OpenGL/VulkanRendererAPI.h
 	OpenGL/VulkanRendererAPI.cpp
-	OpenGL/Resource.h
 	OpenGL/ShaderSystem.h
 	OpenGL/ShaderSystem.cpp
 	OpenGL/Texture.h
@@ -56,6 +78,6 @@ add_executable(OpenGL_Vulkan
 	OpenGL/main.cpp
 )
 
-target_link_libraries(OpenGL_Vulkan glfw3 glew32 vulkan-1 assimp-vc143-mt)
+target_link_libraries(OpenGL_Vulkan glfw3 glew32 opengl32 vulkan-1 assimp-vc143-mt)
 
 target_compile_features(OpenGL_Vulkan PUBLIC cxx_std_17)

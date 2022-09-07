@@ -6,7 +6,7 @@
 #include "BufferLayout.h"
 
 //Mesh Constructor which loads a defined object file
-Mesh::Mesh(std::string& _File)
+Mesh::Mesh(const std::string& _File)
 {
 	/// This will be replaced with a robust utility to load files
 	std::ifstream input(_File.c_str()); //Load the file
