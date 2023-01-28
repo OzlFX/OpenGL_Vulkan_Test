@@ -3,14 +3,14 @@
 
 #include "VertexBuffer.h"
 
-VertexBuffer::VertexBuffer() 
+/*VertexBuffer::VertexBuffer()
 	: m_DataSize(0), m_ID(0)
 {
 	glGenBuffers(1, &m_ID); //Create a new VBO using the VBO id
 
 	if (!m_ID)
 		throw std::exception();
-}
+}*/
 
 VertexBuffer::VertexBuffer(const void* _Data, GLuint _Size)
 	: m_DataSize(_Size), m_ID(0)

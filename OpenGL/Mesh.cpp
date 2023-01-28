@@ -6,7 +6,7 @@
 #include "BufferLayout.h"
 
 //Mesh Constructor which loads a defined object file
-Mesh::Mesh(const std::string& _File)
+/*Mesh::Mesh(const std::string& _File)
 {
 	/// This will be replaced with a robust utility to load files
 	std::ifstream input(_File.c_str()); //Load the file
@@ -31,11 +31,11 @@ Mesh::Mesh(const std::string& _File)
 
 	m_VertexArray->AddBuffer(m_Buffer);
 	m_VertexArray->SetIndexBuffer(m_IndexBuffer);
-}
+}*/
 
 //Mesh Constructor which loads a defined object from position and
 // index data
-Mesh::Mesh(GLfloat &_pos, GLuint &_indices)
+/*Mesh::Mesh(GLfloat& _pos, GLuint& _indices)
 {
 	m_VertexArray = std::make_shared<VertexArray>();
 
@@ -50,7 +50,7 @@ Mesh::Mesh(GLfloat &_pos, GLuint &_indices)
 
 	m_VertexArray->AddBuffer(m_Buffer);
 	m_VertexArray->SetIndexBuffer(m_IndexBuffer);
-}
+}*/
 
 //Default Mesh Constructor for no defined object, uses default mesh
 Mesh::Mesh()

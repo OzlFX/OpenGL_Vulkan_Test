@@ -38,7 +38,7 @@ int main()//int argc, char *argv[])
 	std::unique_ptr<Window> window = Window::Create(840, 640, "OpenGL/Vulkan"); //Create the window
 	Renderer::Init(); //Initialise the renderer
 	
-	std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>(pos, indices); //Create a mesh
+	std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>(); //Create a mesh
 	std::shared_ptr<ShaderSystem> ShaderSys = std::make_shared<ShaderSystem>(BasicVert.c_str(), BasicFrag.c_str()); //Setup the shader system and parse in the shader files
 	ShaderSys->CreateProgram(); //Create the shader program
 	ShaderSys->Bind(); //Bind the shader for use

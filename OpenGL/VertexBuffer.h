@@ -13,7 +13,7 @@ class VertexBuffer
 {
 public:
 
-	VertexBuffer();
+	//VertexBuffer();
 	VertexBuffer(const void* _Data, GLuint _Size);
 
 	void Bind() const;
