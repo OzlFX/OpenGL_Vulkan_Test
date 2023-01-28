@@ -44,7 +44,6 @@ link_directories(
 add_executable(OpenGL_Vulkan
 	OpenGL/Resource.h
 	OpenGL/ResourceLoader.h
-	OpenGL/ResourceLoader.cpp
 	OpenGL/BufferLayout.h
 	OpenGL/Context.h
 	OpenGL/Context.cpp

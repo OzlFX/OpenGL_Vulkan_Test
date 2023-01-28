@@ -14,17 +14,36 @@ Mesh::Mesh(const std::string& _File)
 	//Check if the file is not open, throw an error if not
 	if (!input.is_open())
 		std::cerr << "File could not be opened\n";
-}
 
-Mesh::Mesh(const GLfloat* _PosData, GLuint* _Indices)
-{
 	m_VertexArray = std::make_shared<VertexArray>();
 
-	m_Buffer = std::make_shared<VertexBuffer>(_PosData, sizeof(_PosData));
+	GLfloat posData;
+	GLuint indices;
+
+	m_Buffer = std::make_shared<VertexBuffer>(posData, sizeof(posData));
 	BufferLayout Layout = { { DataType::Float3, "in_Pos" },
 							{ DataType::Float4, "in_Colour"} };
 
-	m_IndexBuffer = std::make_shared<IndexBuffer>(_Indices, sizeof(_Indices));
+	m_IndexBuffer = std::make_shared<IndexBuffer>(indices, sizeof(indices));
+
+	//m_Buffer->SetData(pos, sizeof(pos));
+	m_Buffer->SetLayout(Layout);
+
+	m_VertexArray->AddBuffer(m_Buffer);
+	m_VertexArray->SetIndexBuffer(m_IndexBuffer);
+}
+
+//Mesh Constructor which loads a defined object from position and
+// index data
+Mesh::Mesh(GLfloat &_pos, GLuint &_indices)
+{
+	m_VertexArray = std::make_shared<VertexArray>();
+
+	m_Buffer = std::make_shared<VertexBuffer>(_pos, sizeof(_pos));
+	BufferLayout Layout = { { DataType::Float3, "in_Pos" },
+							{ DataType::Float4, "in_Colour"} };
+
+	m_IndexBuffer = std::make_shared<IndexBuffer>(_indices, sizeof(_indices));
 
 	//m_Buffer->SetData(pos, sizeof(pos));
 	m_Buffer->SetLayout(Layout);
