@@ -47,7 +47,7 @@ struct BufferElement
 	DataType m_Type;
 	uint32_t m_Size;
 	size_t m_Offset;
-	unsigned char m_Normalised;
+	bool m_Normalised;
 
 	BufferElement() = default;
 

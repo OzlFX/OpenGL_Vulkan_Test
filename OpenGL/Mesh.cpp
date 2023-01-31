@@ -58,10 +58,10 @@ Mesh::Mesh()
 	//Create an array of vertex positions for our makeshift triangle
 	const GLfloat pos[] = 
 	{
-		 -1.5f, -0.5f, 0.0f, 0.18f, 0.6f, 0.96f, 1.0f,
 		 -0.5f, -0.5f, 0.0f, 0.18f, 0.6f, 0.96f, 1.0f,
-		 -0.5f,  0.5f, 0.0f, 0.18f, 0.6f, 0.96f, 1.0f,
+		 -1.5f, -0.5f, 0.0f, 0.18f, 0.6f, 0.96f, 1.0f,
 		 -1.5f,  0.5f, 0.0f, 0.18f, 0.6f, 0.96f, 1.0f,
+		 -0.5f,  0.5f, 0.0f, 0.18f, 0.6f, 0.96f, 1.0f,
 
 		  0.5f, -0.5f, 0.0f, 0.6f, 0.87f, 0.02f, 1.0f,
 		  1.5f, -0.5f, 0.0f, 0.6f, 0.87f, 0.02f, 1.0f,
