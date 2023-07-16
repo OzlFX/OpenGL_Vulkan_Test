@@ -35,22 +35,20 @@
 
 //Mesh Constructor which loads a defined object from position and
 // index data
-/*Mesh::Mesh(GLfloat& _pos, GLuint& _indices)
+Mesh::Mesh(const GLfloat* _pos, unsigned int _posSize, GLuint* _indices, unsigned int _indicesSize)
 {
 	m_VertexArray = std::make_shared<VertexArray>();
 
-	m_Buffer = std::make_shared<VertexBuffer>(_pos, sizeof(_pos));
+	m_Buffer = std::make_shared<VertexBuffer>(_pos, _posSize);
 	BufferLayout Layout = { { DataType::Float3, "in_Pos" },
 							{ DataType::Float4, "in_Colour"} };
 
-	m_IndexBuffer = std::make_shared<IndexBuffer>(_indices, sizeof(_indices));
-
-	//m_Buffer->SetData(pos, sizeof(pos));
+	m_IndexBuffer = std::make_shared<IndexBuffer>(_indices, _indicesSize);
 	m_Buffer->SetLayout(Layout);
 
 	m_VertexArray->AddBuffer(m_Buffer);
 	m_VertexArray->SetIndexBuffer(m_IndexBuffer);
-}*/
+}
 
 //Default Mesh Constructor for no defined object, uses default mesh
 Mesh::Mesh()
@@ -58,10 +56,10 @@ Mesh::Mesh()
 	//Create an array of vertex positions for our makeshift triangle
 	const GLfloat pos[] = 
 	{
-		 -0.5f, -0.5f, 0.0f, 0.18f, 0.6f, 0.96f, 1.0f,
 		 -1.5f, -0.5f, 0.0f, 0.18f, 0.6f, 0.96f, 1.0f,
-		 -1.5f,  0.5f, 0.0f, 0.18f, 0.6f, 0.96f, 1.0f,
+		 -0.5f, -0.5f, 0.0f, 0.18f, 0.6f, 0.96f, 1.0f,
 		 -0.5f,  0.5f, 0.0f, 0.18f, 0.6f, 0.96f, 1.0f,
+		 -1.5f,  0.5f, 0.0f, 0.18f, 0.6f, 0.96f, 1.0f,
 
 		  0.5f, -0.5f, 0.0f, 0.6f, 0.87f, 0.02f, 1.0f,
 		  1.5f, -0.5f, 0.0f, 0.6f, 0.87f, 0.02f, 1.0f,

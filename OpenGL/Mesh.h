@@ -14,7 +14,7 @@ class Mesh
 public:
 	
 	//Mesh(const std::string& _File);
-	//Mesh(GLfloat &_pos, GLuint &_indices);
+	Mesh(const GLfloat* _pos, unsigned int _posSize, GLuint* _indices, unsigned int _indicesSize);
 	Mesh(); //Default Mesh
 
 	void Bind() const; //Bind the Mesh Data for usage in the renderer
