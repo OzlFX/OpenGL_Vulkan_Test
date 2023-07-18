@@ -5,8 +5,8 @@
 #include "Mesh.h"
 #include "BufferLayout.h"
 
-//Mesh Constructor which loads a defined object file
-/*Mesh::Mesh(const std::string& _File)
+// Mesh Constructor which loads a defined object file
+Mesh::Mesh(const std::string& _File)
 {
 	/// This will be replaced with a robust utility to load files
 	std::ifstream input(_File.c_str()); //Load the file
@@ -15,7 +15,7 @@
 	if (!input.is_open())
 		std::cerr << "File could not be opened\n";
 
-	m_VertexArray = std::make_shared<VertexArray>();
+	/*m_VertexArray = std::make_shared<VertexArray>();
 
 	GLfloat posData;
 	GLuint indices;
@@ -30,10 +30,10 @@
 	m_Buffer->SetLayout(Layout);
 
 	m_VertexArray->AddBuffer(m_Buffer);
-	m_VertexArray->SetIndexBuffer(m_IndexBuffer);
-}*/
+	m_VertexArray->SetIndexBuffer(m_IndexBuffer);*/
+}
 
-//Mesh Constructor which loads a defined object from position and
+// Mesh Constructor which loads a defined object from position and
 // index data
 Mesh::Mesh(const GLfloat* _pos, unsigned int _posSize, GLuint* _indices, unsigned int _indicesSize)
 {
@@ -50,10 +50,10 @@ Mesh::Mesh(const GLfloat* _pos, unsigned int _posSize, GLuint* _indices, unsigne
 	m_VertexArray->SetIndexBuffer(m_IndexBuffer);
 }
 
-//Default Mesh Constructor for no defined object, uses default mesh
+// Default Mesh Constructor for no defined object, uses default mesh
 Mesh::Mesh()
 {
-	//Create an array of vertex positions for our makeshift triangle
+	// Create an array of vertex positions for our makeshift triangle
 	const GLfloat pos[] = 
 	{
 		 -1.5f, -0.5f, 0.0f, 0.18f, 0.6f, 0.96f, 1.0f,
@@ -67,21 +67,25 @@ Mesh::Mesh()
 		  0.5f,  0.5f, 0.0f, 0.6f, 0.87f, 0.02f, 1.0f
 	};
 
-	//Use the indices to render our triangle as a square by plotting 
-	//the points to rerender in a defined order
+	// Use the indices to render our triangle as a square by plotting 
+	// the points to rerender in a defined order
 	GLuint indices[] =
 	{ 
 		0, 1, 2, 2, 3, 0,
 		4, 5, 6, 6, 7, 4
 	};
 
+	/// Weirdly this fixes the graphical issue
+	auto posSize = sizeof(pos);
+	auto indiciesSize = sizeof(indices);
+
 	m_VertexArray = std::make_shared<VertexArray>();
 
-	m_Buffer = std::make_shared<VertexBuffer>(pos, sizeof(pos));
+	m_Buffer = std::make_shared<VertexBuffer>(pos, posSize);
 	BufferLayout Layout = { { DataType::Float3, "in_Pos" },
 							{ DataType::Float4, "in_Colour"} };
 	
-	m_IndexBuffer = std::make_shared<IndexBuffer>(indices, sizeof(indices));
+	m_IndexBuffer = std::make_shared<IndexBuffer>(indices, indiciesSize);
 
 	//m_Buffer->SetData(pos, sizeof(pos));
 	m_Buffer->SetLayout(Layout);

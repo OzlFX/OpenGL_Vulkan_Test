@@ -13,21 +13,21 @@ class Mesh
 {
 public:
 	
-	//Mesh(const std::string& _File);
-	Mesh(const GLfloat* _pos, unsigned int _posSize, GLuint* _indices, unsigned int _indicesSize);
-	Mesh(); //Default Mesh
+	Mesh(const std::string& _File); // Load an object from file
+	Mesh(const GLfloat* _pos, unsigned int _posSize, GLuint* _indices, unsigned int _indicesSize); // Define an object with code
+	Mesh(); // Default Mesh
 
-	void Bind() const; //Bind the Mesh Data for usage in the renderer
-	void Unbind() const; //Unbind the Mesh Data from the renderer
+	void Bind() const; // Bind the Mesh Data for usage in the renderer
+	void Unbind() const; // Unbind the Mesh Data from the renderer
 
-	void CleanUp() const; //Cleanup the Mesh data, unbinding everything
+	void CleanUp() const; // Cleanup the Mesh data, unbinding everything
 
-	const GLuint& GetVertexCount() const { return m_VertexArray->GetIndexBuffer()->GetCount(); } //Get the object Index Count
-	const GLuint& GetIndexData() const { return *m_VertexArray->GetIndexBuffer()->GetIndicies(); } //Get the object's Indicies
+	const GLuint& GetVertexCount() const { return m_VertexArray->GetIndexBuffer()->GetCount(); } // Get the object Index Count
+	const GLuint& GetIndexData() const { return *m_VertexArray->GetIndexBuffer()->GetIndicies(); } // Get the object's Indicies
 
 private:
 
-	//Vars
+	// Vars
 	std::shared_ptr<VertexBuffer> m_Buffer;
 	std::shared_ptr<IndexBuffer> m_IndexBuffer;
 	std::shared_ptr<VertexArray> m_VertexArray;
