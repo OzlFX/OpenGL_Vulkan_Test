@@ -1,11 +1,11 @@
 #ifndef _VERTEXARRAY_H_
 #define _VERTEXARRAY_H_
 
-//Temp Type Defines for OpenGL
+// Temp Type Defines for OpenGL
 typedef unsigned int GLuint;
 typedef unsigned int GLenum;
 
-//Includes
+// Includes
 #include <memory>
 #include <vector>
 
@@ -35,7 +35,7 @@ private:
 
 	GLenum DataTypeToOpenGLType(DataType _Type);
 
-	GLuint m_ID; //Set the Vertex Array Objecy ID
+	GLuint m_ID; // Set the Vertex Array Objecy ID
 	uint32_t m_BufferIndex = 0;
 
 	std::shared_ptr<IndexBuffer> m_IndexBuffer;

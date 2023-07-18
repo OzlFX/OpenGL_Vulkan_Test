@@ -10,28 +10,28 @@
 VertexArray::VertexArray()
 	: m_ID(0)
 {
-	glGenVertexArrays(1, &m_ID); //Create a new VAO on the GPU using the VAO id
+	glGenVertexArrays(1, &m_ID); // Create a new VAO on the GPU using the VAO id
 
 	if (!m_ID)
 		throw std::exception();
 }
 
-//Bind our Vertex Array
+// Bind our Vertex Array
 void VertexArray::Bind() const
 {
-	//Create a new VAO on the GPU using the VAO id
+	// Create a new VAO on the GPU using the VAO id
 	glBindVertexArray(m_ID); 
 }
 
-//Unbind our Vertex Array
+// Unbind our Vertex Array
 void VertexArray::Unbind() const
 {
 	glBindVertexArray(0);
 }
 
-///We hard code this for now since we are working with just one triangle.
-///Will need to get components (data per line i.e. position vectors) later for models.
-//Set the buffer data to draw
+/// We hard code this for now since we are working with just one triangle.
+/// Will need to get components (data per line i.e. position vectors) later for models.
+// Set the buffer data to draw
 void VertexArray::AddBuffer(const std::shared_ptr<VertexBuffer>& _Buffer)
 {
 	//if (_Buffer->GetLayout().GetElements().size() < 1)
@@ -45,7 +45,7 @@ void VertexArray::AddBuffer(const std::shared_ptr<VertexBuffer>& _Buffer)
 	//glEnableVertexAttribArray(0);
 
 	const auto& layout = _Buffer->GetLayout();
-	//Assign the VBO to the first index and flag it for use
+	// Assign the VBO to the first index and flag it for use
 	for (const auto& element : layout)
 	{
 		switch (element.m_Type)

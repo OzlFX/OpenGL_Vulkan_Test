@@ -1,7 +1,7 @@
 #ifndef _RENDERER_H_
 #define _RENDERER_H_
 
-//Includes
+// Includes
 #include <memory>
 
 #include "RendererAPI.h"
